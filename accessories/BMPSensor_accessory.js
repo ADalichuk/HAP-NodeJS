@@ -12,8 +12,6 @@ var barometer = new BMP085(
     }
 );
 
-var pr = 760;
-
 // here's a pressure sensor device that we'll expose to HomeKit
 var BMP_SENSOR = {
   currentPressure: 760,
@@ -31,6 +29,7 @@ var BMP_SENSOR = {
             console.log("Pressure:", (data.pressure*0.750062).toFixed(2));
             sensorObjRef.currentPressure = (data.pressure*0.750062).toFixed(2);
       });
+    console.log("that:", sensorObjRef.currentPressure);
   }
 }
 
