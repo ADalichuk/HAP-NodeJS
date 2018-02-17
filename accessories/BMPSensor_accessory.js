@@ -11,6 +11,7 @@ var barometer = new BMP085(
         'device': '/dev/i2c-1'
     }
 );
+
 // here's a pressure sensor device that we'll expose to HomeKit
 var BMP_SENSOR = {
   currentPressure: 760,
@@ -19,7 +20,10 @@ var BMP_SENSOR = {
     return BMP_SENSOR.currentPressure;
   },
   read() {
-    BMP_SENSOR.currentPressure = barometer.read().pressure.toFixed(2)*0.00750062;
+    barometer.read(function (data) {
+            console.log("Pressure:", data.pressure.toFixed(2)*0.00750062);
+            BMP_SENSOR.currentPressure = data.pressure.toFixed(2)*0.00750062;
+      });
   }
 }
 
