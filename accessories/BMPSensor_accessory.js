@@ -20,15 +20,12 @@ var BMP_SENSOR = {
     return BMP_SENSOR.currentPressure;
   },
   read() {
-
-    barometer.read();
+    barometer.read(function (data) {
+            console.log("Pressure:", data.pressure.toFixed(2)*0.00750062);
+            //BMP_SENSOR.currentPressure = data.pressure.toFixed(2)*0.00750062;
+      });
   }
 }
-
-barometer.read(function (data) {
-            console.log("Pressure:", data.pressure.toFixed(2)*0.00750062);
-            BMP_SENSOR.currentPressure = data.pressure.toFixed(2)*0.00750062;
-      });
 
 // This is the Accessory that we'll return to HAP-NodeJS.
 var sensor = exports.accessory = new Accessory('BMP Sensor', uuid.generate('hap-nodejs:accessories:temperature-sensor'));
