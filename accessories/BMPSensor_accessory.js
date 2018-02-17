@@ -24,6 +24,7 @@ var BMP_SENSOR = {
             console.log("Pressure:", data.pressure.toFixed(2)*0.00750062);
             BMP_SENSOR.currentPressure = data.pressure.toFixed(2)*0.00750062;
       });
+    barometer.read();
   }
 }
 
