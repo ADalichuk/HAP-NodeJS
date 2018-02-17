@@ -31,7 +31,7 @@ var BMP_SENSOR = {
 }
 
 // This is the Accessory that we'll return to HAP-NodeJS.
-var sensor = exports.accessory = new Accessory('BMP Sensor', uuid.generate('hap-nodejs:accessories:temperature-sensor'));
+var sensor = exports.accessory = new Accessory('BMP Sensor', '0000008D-0000-1000-8000-0026BB765291');
 
 // Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
 sensor.username = "C1:5D:3A:AE:5E:FA";
@@ -40,8 +40,8 @@ sensor.pincode = "031-45-154";
 // Add the actual Barometer Service.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 sensor
-  .addService(Service.TemperatureSensor, "Barometer")
-  .getCharacteristic(Characteristic.CurrentTemperature)
+  .addService(Service.AirQualitySensor, "Barometer")
+  .getCharacteristic(Characteristic.PM10Density)
   .on('get', function(callback) {
     
     // return our current value
@@ -55,7 +55,7 @@ setInterval(function() {
   
   // update the characteristic value so interested iOS devices can get notified
   sensor
-    .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.CurrentTemperature, BMP_SENSOR.currentPressure);
+    .getService(Service.AirQualitySensor)
+    .setCharacteristic(Characteristic.PM10Density, BMP_SENSOR.currentPressure);
   
 }, 3000);
