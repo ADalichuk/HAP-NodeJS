@@ -25,7 +25,6 @@ var BMP_SENSOR = {
     barometer.read(function (data) {
           sensorObjRef.currentPressure = (data.pressure*0.750062).toFixed(2);
       });
-    console.log("Pressure:", BMP_SENSOR.currentPressure);
   }
 }
 
@@ -55,6 +54,7 @@ setInterval(function() {
   // update the characteristic value so interested iOS devices can get notified
   sensor
     .getService(Service.AirQualitySensor)
+    .setCharacteristic(Characteristic.AirQuality, 1);
     .setCharacteristic(Characteristic.PM10Density, BMP_SENSOR.currentPressure);
   
 }, 3000);
