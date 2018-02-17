@@ -9,7 +9,7 @@ var FILTER = {
     filterChange: Characteristic.FilterChangeIndication.FILTER_OK,
     filterLifeLevel: 90,
     resetFilterIndication: function() {
-        console.log("Reseting filter state);
+        console.log("Reseting filter state");
         filterChange = Characteristic.FilterChangeIndication.FILTER_OK;
     },
     identify: function() {
