@@ -39,6 +39,7 @@ sensor.pincode = "031-45-154";
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 sensor
   .addService(Service.AirQualitySensor, "Barometer")
+  .getCharacteristic(Characteristic.AirQuality)
   .getCharacteristic(Characteristic.PM10Density)
   .on('get', function(callback) {
     
@@ -54,7 +55,7 @@ setInterval(function() {
   // update the characteristic value so interested iOS devices can get notified
   sensor
     .getService(Service.AirQualitySensor)
-    .setCharacteristic(Characteristic.AirQuality, 1);
+    .setCharacteristic(Characteristic.AirQuality, 1)
     .setCharacteristic(Characteristic.PM10Density, BMP_SENSOR.currentPressure);
   
 }, 3000);
