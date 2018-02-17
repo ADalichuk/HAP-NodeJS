@@ -54,6 +54,6 @@ setInterval(function() {
   // update the characteristic value so interested iOS devices can get notified
   sensor
     .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.currentTemperature, BMP_SENSOR.currentPressure);
+    .setCharacteristic(Characteristic.CurrentTemperature, BMP_SENSOR.currentPressure);
   
 }, 3000);
