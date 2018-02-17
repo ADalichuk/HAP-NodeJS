@@ -25,13 +25,13 @@ var BMP_SENSOR = {
       BMP_SENSOR.currentPressure = value;
   },
   read() {
-    var that = this.currentPressure;
-     console.log("That:", that);
+    var that = this;
+     
     barometer.read(function (data) {
             console.log("Pressure:", (data.pressure*0.750062).toFixed(2));
-            that = (data.pressure*0.750062).toFixed(2);
+            that.currentPressure = (data.pressure*0.750062).toFixed(2);
       });
-    BMP_SENSOR.currentPressure = that;
+        console.log("That:", that.currentPressure);
   }
 }
 
