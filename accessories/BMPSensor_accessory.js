@@ -29,7 +29,7 @@ var BMP_SENSOR = {
 }
 
 // This is the Accessory that we'll return to HAP-NodeJS.
-var sensor = exports.accessory = new Accessory('BMP Sensor', uuid.generate('hap-nodejs:accessories:Barometer');
+var sensor = exports.accessory = new Accessory('BMP Sensor', uuid.generate('hap-nodejs:accessories:barometer'));
 
 // Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
 sensor.username = "C1:5D:3A:AE:5E:FA";
