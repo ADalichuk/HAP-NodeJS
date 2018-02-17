@@ -24,8 +24,8 @@ var DHT_SENSOR = {
     return DHT_SENSOR.currentHumidity;
   },
   read() {
-    DHT_SENSOR.currentTemperature = sensorLib.read().temperature.toFixed(1));
-    DHT_SENSOR.currentHumidity = sensorLib.read().humidity.toFixed(1));
+    DHT_SENSOR.currentTemperature = sensorLib.read().temperature.toFixed(1);
+    DHT_SENSOR.currentHumidity = sensorLib.read().humidity.toFixed(1);
   }
 }
 
@@ -34,19 +34,16 @@ var DHT_SENSOR = {
 // a deterministic UUID based on an arbitrary "namespace" and the string "temperature-sensor", "humidity-sensor".
 
 // This is the Accessory that we'll return to HAP-NodeJS.
-var temperatureSensor = exports.accessory = new Accessory('Temperature Sensor', uuid.generate('hap-nodejs:accessories:temperature-sensor'));
-var humiditySensor = exports.accessory = new Accessory('Humidity Sensor', uuid.generate('hap-nodejs:accessories:humidity-sensor'));
+var sensor = exports.accessory = new Accessory('DHT Sensor', uuid.generate('hap-nodejs:accessories:temperature-sensor'));
 
 // Add properties for publishing (in case we're using Core.js and not BridgedCore.js)
-temperatureSensor.username = "C1:5D:3A:AE:5E:FA";
-temperatureSensor.pincode = "031-45-154";
-humiditySensor.username = "C1:5D:3A:AE:5E:FA";
-humiditySensor.pincode = "031-45-154";
+sensor.username = "C1:5D:3A:AE:5E:FA";
+sensor.pincode = "031-45-154";
 
 // Add the actual TemperatureSensor&HumiditySensor Service.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
-temperatureSensor
-  .addService(Service.TemperatureSensor)
+sensor
+  .addService(Service.TemperatureSensor, "Temperature")
   .getCharacteristic(Characteristic.CurrentTemperature)
   .on('get', function(callback) {
     
@@ -54,9 +51,9 @@ temperatureSensor
     callback(null, DHT_SENSOR.getTemperature());
   });
 
-humiditySensor
-  .addService(Service.HumiditySensor)
-  .getCharacteristic(Characteristic.CurrentHumidity)
+sensor
+  .addService(Service.HumiditySensor, "Humidity")
+  .getCharacteristic(Characteristic.CurrentRelativeHumidity )
   .on('get', function(callback) {
     
     // return our current value
@@ -69,12 +66,12 @@ setInterval(function() {
   DHT_SENSOR.read();
   
   // update the characteristic value so interested iOS devices can get notified
-  temperatureSensor
+  sensor
     .getService(Service.TemperatureSensor)
     .setCharacteristic(Characteristic.CurrentTemperature, DHT_SENSOR.currentTemperature);
     
-  humiditySensor
+  sensor
     .getService(Service.HumiditySensor)
-    .setCharacteristic(Characteristic.CurrentHumidity, DHT_SENSOR.currentHumidity);
+    .setCharacteristic(Characteristic.CurrentRelativeHumidity, DHT_SENSOR.currentHumidity);
   
 }, 3000);
