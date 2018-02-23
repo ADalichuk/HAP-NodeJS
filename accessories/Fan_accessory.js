@@ -2,12 +2,13 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-
+var Gpio = require('pigpio').Gpio,
 
 // here's a fake hardware device that we'll expose to HomeKit
 var FAKE_FAN = {
   powerOn: false,
   rSpeed: 100,
+  pwmControl: new Gpio(12, {mode: Gpio.OUTPUT}),
   setPowerOn: function(on) {
     if(on){
       //put your code here to turn on the fan
@@ -89,3 +90,8 @@ fan
     FAKE_FAN.setSpeed(value);
     callback();
   })
+
+// Setup pwm control 
+setInterval(function () {
+  FAKE_FAN.pwmControl.pwmWrite(FAKE_FAN.rSpeed * 255 / 100);
+}, 20);
