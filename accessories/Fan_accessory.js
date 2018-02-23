@@ -94,5 +94,4 @@ fan
 // Setup pwm control 
 setInterval(function () {
   FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100));
-  console.log(Math.floor(FAKE_FAN.rSpeed * 255 / 100));
-}, 3);
+}, 500);// update fan speed once per 500 milliseconds
