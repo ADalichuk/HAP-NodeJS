@@ -93,5 +93,6 @@ fan
 
 // Setup pwm control 
 setInterval(function () {
-  FAKE_FAN.pwmControl.pwmWrite(FAKE_FAN.rSpeed * 255 / 100);
+  FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100));
+  console.log(Math.floor(FAKE_FAN.rSpeed * 255 / 100));
 }, 3);
