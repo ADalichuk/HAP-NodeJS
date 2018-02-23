@@ -94,4 +94,4 @@ fan
 // Setup pwm control 
 setInterval(function () {
   FAKE_FAN.pwmControl.pwmWrite(FAKE_FAN.rSpeed * 255 / 100);
-}, 20);
+}, 3);
