@@ -105,19 +105,19 @@ setInterval(function () {
   // turn on corresponding relay according to fan speed value
   switch (true) {
     case (FAKE_FAN.rSpeed < 33):
-        FAKE_FAN.speed_3_Relay = false;
-        FAKE_FAN.speed_2_Relay = false;
-        FAKE_FAN.speed_1_Relay = true;
+        FAKE_FAN.speed_3_Relay.writeSync(0);
+        FAKE_FAN.speed_2_Relay.writeSync(0);
+        FAKE_FAN.speed_1_Relay.writeSync(1);
         break;
     case (FAKE_FAN.rSpeed >= 33 && FAKE_FAN.rSpeed < 66 ):
-        FAKE_FAN.speed_3_Relay = false;
-        FAKE_FAN.speed_1_Relay = false;
-        FAKE_FAN.speed_2_Relay = true;
+        FAKE_FAN.speed_3_Relay.writeSync(0);
+        FAKE_FAN.speed_1_Relay.writeSync(0);
+        FAKE_FAN.speed_2_Relay.writeSync(1);
         break;
     case (FAKE_FAN.rSpeed >= 66):
-        FAKE_FAN.speed_2_Relay = false;
-        FAKE_FAN.speed_1_Relay = false;
-        FAKE_FAN.speed_3_Relay = true;
+        FAKE_FAN.speed_2_Relay.writeSync(0);
+        FAKE_FAN.speed_1_Relay.writeSync(0);
+        FAKE_FAN.speed_3_Relay.writeSync(1);
         break;
   }
 }, 500);// update fan speed once per 500 milliseconds
