@@ -103,9 +103,7 @@ setInterval(function () {
   FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn ? 1 : 0);
   
   // turn on corresponding relay according to fan speed value
-  switch (true) {
-    case(FAKE_FAN.powerOn)
-        
+  switch (true) {        
     case (FAKE_FAN.rSpeed < 33):
         FAKE_FAN.speed_3_Relay.writeSync(0);
         FAKE_FAN.speed_2_Relay.writeSync(0);
