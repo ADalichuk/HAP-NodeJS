@@ -12,8 +12,8 @@ var FAKE_FAN = {
   pwmControl: new Gpio(12, {mode: Gpio.OUTPUT}),
   powerOnRelay: new GPIOOnOff(26, 'out'),
   speed_1_Relay: new GPIOOnOff(19, 'out'),
-  speed_2_Relay: new GPIOOnOff(13, 'out'),
-  speed_3_Relay: new GPIOOnOff(6, 'out'),
+  speed_2_Relay: new GPIOOnOff(6, 'out'),
+  speed_3_Relay: new GPIOOnOff(13, 'out'),
   setPowerOn: function(on) {
     if(on){
       //put your code here to turn on the fan
@@ -100,7 +100,7 @@ fan
 setInterval(function () {
   //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * FAKE_FAN.powerOn);
   FAKE_FAN.pwmControl.pwmWrite(255 * FAKE_FAN.powerOn);
-  FAKE_FAN.powerOnRelay = FAKE_FAN.powerOn;
+  FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn);
   
   // turn on corresponding relay according to fan speed value
   switch (true) {
