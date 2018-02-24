@@ -99,7 +99,7 @@ fan
 setInterval(function () {
   //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * FAKE_FAN.powerOn);
   FAKE_FAN.pwmControl.pwmWrite(255 * FAKE_FAN.powerOn);
-  FAKE_FAN.powerOnRelay =  FAKE_FAN.powerOn;
+  FAKE_FAN.powerOnRelay = FAKE_FAN.powerOn;
   
   // turn on corresponding relay according to fan speed value
   switch (true) {
@@ -109,13 +109,11 @@ setInterval(function () {
         FAKE_FAN.speed_1_Relay = true;
         break;
     case (FAKE_FAN.rSpeed >= 33 && FAKE_FAN.rSpeed < 66 ):
-        console.log("Fan Speed 2");
         FAKE_FAN.speed_3_Relay = false;
         FAKE_FAN.speed_1_Relay = false;
         FAKE_FAN.speed_2_Relay = true;
         break;
     case (FAKE_FAN.rSpeed >= 66):
-        console.log("Fan Speed 3");
         FAKE_FAN.speed_2_Relay = false;
         FAKE_FAN.speed_1_Relay = false;
         FAKE_FAN.speed_3_Relay = true;
