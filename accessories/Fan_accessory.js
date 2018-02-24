@@ -9,6 +9,10 @@ var FAKE_FAN = {
   powerOn: false,
   rSpeed: 100,
   pwmControl: new Gpio(12, {mode: Gpio.OUTPUT}),
+  powerOnRelay: new Gpio(26, {mode: Gpio.OUTPUT}),
+  speed_1_Relay: new Gpio(19, {mode: Gpio.OUTPUT}),
+  speed_2_Relay: new Gpio(13, {mode: Gpio.OUTPUT}),
+  speed_3_Relay: new Gpio(6, {mode: Gpio.OUTPUT}),
   setPowerOn: function(on) {
     if(on){
       //put your code here to turn on the fan
@@ -91,7 +95,30 @@ fan
     callback();
   })
 
-// Setup pwm control 
+// Setup fans speed control 
 setInterval(function () {
-  FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * !FAKE_FAN.powerOn);
+  //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * FAKE_FAN.powerOn);
+  FAKE_FAN.pwmControl.pwmWrite(255 * FAKE_FAN.powerOn);
+  FAKE_FAN.powerOnRelay =  FAKE_FAN.powerOn;
+  
+  // turn on corresponding relay according to fan speed value
+  switch (true) {
+    case (FAKE_FAN.rSpeed < 33):
+        FAKE_FAN.speed_3_Relay = false;
+        FAKE_FAN.speed_2_Relay = false;
+        FAKE_FAN.speed_1_Relay = true;
+        break;
+    case (FAKE_FAN.rSpeed >= 33 && FAKE_FAN.rSpeed < 66 ):
+        console.log("Fan Speed 2");
+        FAKE_FAN.speed_3_Relay = false;
+        FAKE_FAN.speed_1_Relay = false;
+        FAKE_FAN.speed_2_Relay = true;
+        break;
+    case (FAKE_FAN.rSpeed >= 66):
+        console.log("Fan Speed 3");
+        FAKE_FAN.speed_2_Relay = false;
+        FAKE_FAN.speed_1_Relay = false;
+        FAKE_FAN.speed_3_Relay = true;
+        break;
+  }
 }, 500);// update fan speed once per 500 milliseconds
