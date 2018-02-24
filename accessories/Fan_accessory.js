@@ -100,10 +100,12 @@ fan
 setInterval(function () {
   //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * FAKE_FAN.powerOn);
   FAKE_FAN.pwmControl.pwmWrite(255 * FAKE_FAN.powerOn);
-  FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn);
+  FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn ? 1 : 0);
   
   // turn on corresponding relay according to fan speed value
   switch (true) {
+    case(FAKE_FAN.powerOn)
+        
     case (FAKE_FAN.rSpeed < 33):
         FAKE_FAN.speed_3_Relay.writeSync(0);
         FAKE_FAN.speed_2_Relay.writeSync(0);
