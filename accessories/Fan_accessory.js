@@ -3,16 +3,17 @@ var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 var Gpio = require('pigpio').Gpio;
+var GPIOOnOff = require('onoff').Gpio;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var FAKE_FAN = {
   powerOn: false,
   rSpeed: 100,
   pwmControl: new Gpio(12, {mode: Gpio.OUTPUT}),
-  powerOnRelay: new Gpio(26, {mode: Gpio.OUTPUT}),
-  speed_1_Relay: new Gpio(19, {mode: Gpio.OUTPUT}),
-  speed_2_Relay: new Gpio(13, {mode: Gpio.OUTPUT}),
-  speed_3_Relay: new Gpio(6, {mode: Gpio.OUTPUT}),
+  powerOnRelay: new GPIOOnOff(26, 'out');
+  speed_1_Relay: new GPIOOnOff(19, 'out');
+  speed_2_Relay: new GPIOOnOff(13, 'out');
+  speed_3_Relay: new GPIOOnOff(6, 'out');
   setPowerOn: function(on) {
     if(on){
       //put your code here to turn on the fan
