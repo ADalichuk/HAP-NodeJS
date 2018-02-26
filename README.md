@@ -13,7 +13,7 @@ Remember to run `npm install` before actually running the server.
 
 Users can define their own accessories in: accessories/[name]_accessory.js files, where [name] is a short description of the accessory. All defined accessories get loaded on server start. You can define accessories using an object literal notation (see [Fan_accessory.js](accessories/Fan_accessory.js) for an example) or you can use the API (see below).
 
-You can use the folloing command to start the HAP Server in Bridged mode:
+You can use the following command to start the HAP Server in Bridged mode:
 
 ```sh
 node BridgedCore.js
