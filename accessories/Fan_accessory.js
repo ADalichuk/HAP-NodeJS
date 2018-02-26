@@ -98,26 +98,29 @@ fan
 
 // Setup fans speed control 
 setInterval(function () {
-  //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * FAKE_FAN.powerOn);
-  FAKE_FAN.pwmControl.pwmWrite(255 * !FAKE_FAN.powerOn);
+  FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * !FAKE_FAN.powerOn);
+  //FAKE_FAN.pwmControl.pwmWrite(255 * !FAKE_FAN.powerOn);
   FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn ? 0 : 1);
+  FAKE_FAN.speed_3_Relay.writeSync(0);
+  FAKE_FAN.speed_2_Relay.writeSync(1);
+  FAKE_FAN.speed_1_Relay.writeSync(1);
   
   // turn on corresponding relay according to fan speed value
-  switch (true) {        
-    case (FAKE_FAN.rSpeed < 33):
-        FAKE_FAN.speed_3_Relay.writeSync(1);
-        FAKE_FAN.speed_2_Relay.writeSync(1);
-        FAKE_FAN.speed_1_Relay.writeSync(0);
-        break;
-    case (FAKE_FAN.rSpeed >= 33 && FAKE_FAN.rSpeed < 66 ):
-        FAKE_FAN.speed_3_Relay.writeSync(1);
-        FAKE_FAN.speed_1_Relay.writeSync(1);
-        FAKE_FAN.speed_2_Relay.writeSync(0);
-        break;
-    case (FAKE_FAN.rSpeed >= 66):
-        FAKE_FAN.speed_2_Relay.writeSync(1);
-        FAKE_FAN.speed_1_Relay.writeSync(1);
-        FAKE_FAN.speed_3_Relay.writeSync(0);
-        break;
-  }
+  // switch (true) {        
+    // case (FAKE_FAN.rSpeed < 33):
+        // FAKE_FAN.speed_3_Relay.writeSync(1);
+        // FAKE_FAN.speed_2_Relay.writeSync(1);
+        // FAKE_FAN.speed_1_Relay.writeSync(0);
+        // break;
+    // case (FAKE_FAN.rSpeed >= 33 && FAKE_FAN.rSpeed < 66 ):
+        // FAKE_FAN.speed_3_Relay.writeSync(1);
+        // FAKE_FAN.speed_1_Relay.writeSync(1);
+        // FAKE_FAN.speed_2_Relay.writeSync(0);
+        // break;
+    // case (FAKE_FAN.rSpeed >= 66):
+        // FAKE_FAN.speed_2_Relay.writeSync(1);
+        // FAKE_FAN.speed_1_Relay.writeSync(1);
+        // FAKE_FAN.speed_3_Relay.writeSync(0);
+        // break;
+  // }
 }, 500);// update fan speed once per 500 milliseconds
