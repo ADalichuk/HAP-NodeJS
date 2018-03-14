@@ -18,7 +18,7 @@ var CO2_SENSOR = {
   },
   read() {
     uart.write("\xff\x01\x86\x00\x00\x00\x00\x00\x79");
-    response=uart.read();
+    var response=uart.read();
     
     if response[0] == "\xff" and response[1] == "\x86"{
        currentLevel = s[2]*256 + s[3];
