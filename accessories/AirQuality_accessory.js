@@ -8,6 +8,8 @@ var sleep = require('sleep');
 // initialize UART and CO2 sensor
 var uart = new SerialPort('/dev/serial0', {baudRate: 9600});
 sleep.sleep(1);
+uart.open();
+sleep.sleep(1);
 uart.write("\xff\x01\x99\x00\x00\x00\x07\xd0\x8f");
 sleep.msleep(100);
 uart.read();
