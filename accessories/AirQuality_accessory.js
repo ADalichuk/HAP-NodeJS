@@ -9,7 +9,7 @@ var sleep = require('sleep');
 var uart = new SerialPort('/dev/serial0', {baudRate: 9600});
 sleep.sleep(1);
 uart.write("\xff\x01\x99\x00\x00\x00\x07\xd0\x8f");
-sleep.sleep(0.1);
+sleep.msleep(100);
 uart.read();
 
 // here's a pressure sensor device that we'll expose to HomeKit
@@ -21,7 +21,7 @@ var CO2_SENSOR = {
   },
   read() {
     uart.write("\xff\x01\x86\x00\x00\x00\x00\x00\x79");
-    sleep.sleep(0.2);
+    sleep.msleep(200);
     var response=uart.read();
     
     if (response[0] == "\xff" && response[1] == "\x86"){
