@@ -56,10 +56,24 @@ setInterval(function() {
   
   CO2_SENSOR.read();
   
+  var airQuality = 0;
+  switch (true) {
+    case (CO2_SENSOR.getLevel() < 600):
+        airQuality = 0;
+        break;
+    case (600 > CO2_SENSOR.getLevel() && CO2_SENSOR.getLevel() < 1000):
+        airQuality = 1;
+        break;
+    case (1000 > CO2_SENSOR.getLevel()):
+        airQuality = 2;
+        break;
+  }
+  
+  var airQuality = 
   // update the characteristic value so interested iOS devices can get notified
   sensor
     .getService(Service.AirQualitySensor)
-    .setCharacteristic(Characteristic.AirQuality, 1)
+    .setCharacteristic(Characteristic.AirQuality, airQuality)
     .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.currentLevel);
   
 }, 3000);
