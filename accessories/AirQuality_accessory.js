@@ -17,7 +17,7 @@ uart.read(9);
 var CO2_SENSOR = {
   currentLevel: 399,
   getLevel: function() { 
-    console.log("Getting the current CO2 level!");
+    console.log("Getting the current CO2 level. CO2=" + this.currentLevel + " ppm");
     return this.currentLevel;
   },
   read() {
