@@ -7,12 +7,11 @@ var sleep = require('sleep');
 
 // initialize UART and CO2 sensor
 const buf = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
-
 var uart = new SerialPort('/dev/serial0', {baudRate: 9600});
 sleep.sleep(2);
 uart.write(buf);
 sleep.msleep(100);
-uart.read();
+uart.read(9);
 
 // here's a pressure sensor device that we'll expose to HomeKit
 var CO2_SENSOR = {
@@ -22,13 +21,14 @@ var CO2_SENSOR = {
     return CO2_SENSOR.currentLevel;
   },
   read() {
-    //uart.write("\xff\x01\x86\x00\x00\x00\x00\x00\x79");
-   // sleep.msleep(200);
-    //var response=uart.read();
+    const cmdBuf = Buffer.from([0xff,0x01,0x86,0x00,0x00,0x00,0x00,0x00,0x79]);
+    uart.write(cmdBuf);
+    sleep.msleep(200);
+    var response=uart.read();
     
-   // if (response[0] == "\xff" && response[1] == "\x86"){
-   //    currentLevel = s[2]*256 + s[3];
-   // }
+    if (response[0] == "\xff" && response[1] == "\x86"){
+       currentLevel = s[2]*256 + s[3];
+    }
   }
 }
 
