@@ -15,10 +15,10 @@ uart.read(9);
 
 // here's a pressure sensor device that we'll expose to HomeKit
 var CO2_SENSOR = {
-  currentLevel: 400,
+  currentLevel: 399,
   getLevel: function() { 
     console.log("Getting the current CO2 level!");
-    return CO2_SENSOR.currentLevel;
+    return this.currentLevel;
   },
   read() {
     const cmdBuf = Buffer.from([0xff,0x01,0x86,0x00,0x00,0x00,0x00,0x00,0x79]);
@@ -27,8 +27,8 @@ var CO2_SENSOR = {
     var response=uart.read();
     
     if (response[0] == 0xff && response[1] == 0x86){
-       currentLevel = response[2]*256 + response[3];
-       console.log("Current CO2 level = " + currentLevel);
+       this.currentLevel = response[2]*256 + response[3];
+       //console.log("Current CO2 level = " + currentLevel);
     }
   }
 }
@@ -40,7 +40,7 @@ var sensor = exports.accessory = new Accessory('CO2 Sensor', uuid.generate('hap-
 sensor.username = "C1:5D:3E:AE:5E:FA";
 sensor.pincode = "031-45-154";
 
-// Add the actual Barometer Service.
+// Add the actual Air Quality Service.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 sensor
   .addService(Service.AirQualitySensor, "CO2")
@@ -69,11 +69,9 @@ setInterval(function() {
         break;
   }
   
-  var airQuality = 
   // update the characteristic value so interested iOS devices can get notified
   sensor
     .getService(Service.AirQualitySensor)
     .setCharacteristic(Characteristic.AirQuality, airQuality)
-    .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.currentLevel);
-  
+    .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
 }, 3000);
