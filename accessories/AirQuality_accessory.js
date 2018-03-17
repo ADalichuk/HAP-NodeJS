@@ -28,6 +28,7 @@ var CO2_SENSOR = {
     
     if (response[0] == 0xff && response[1] == 0x86){
        currentLevel = response[2]*256 + response[3];
+       console.log("Current CO2 level = " + currentLevel);
     }
   }
 }
