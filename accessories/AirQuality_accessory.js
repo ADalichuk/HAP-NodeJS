@@ -20,13 +20,13 @@ var CO2_SENSOR = {
     return CO2_SENSOR.currentLevel;
   },
   read() {
-    uart.write("\xff\x01\x86\x00\x00\x00\x00\x00\x79");
-    sleep.msleep(200);
-    var response=uart.read();
+    //uart.write("\xff\x01\x86\x00\x00\x00\x00\x00\x79");
+   // sleep.msleep(200);
+    //var response=uart.read();
     
-    if (response[0] == "\xff" && response[1] == "\x86"){
-       currentLevel = s[2]*256 + s[3];
-    }
+   // if (response[0] == "\xff" && response[1] == "\x86"){
+   //    currentLevel = s[2]*256 + s[3];
+   // }
   }
 }
 
