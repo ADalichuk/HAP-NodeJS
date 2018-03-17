@@ -6,9 +6,11 @@ var SerialPort = require('serialport');
 var sleep = require('sleep');
 
 // initialize UART and CO2 sensor
+const buf = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
+
 var uart = new SerialPort('/dev/serial0', {baudRate: 9600});
 sleep.sleep(2);
-uart.write("\xff\x01\x99\x00\x00\x00\x07\xd0\x8f");
+uart.write(buf);
 sleep.msleep(100);
 uart.read();
 
