@@ -6,10 +6,6 @@ var sensorLib = require('node-dht-sensor');
 
 var sensorType = 22; // 11 for DHT11, 22 for DHT22 and AM2302
 var sensorPin  = 17;  // The GPIO pin number for sensor signal
-if (!sensorLib.initialize(sensorType, sensorPin)) {
-    console.warn('Failed to initialize sensor');
-    process.exit(1);
-}
 
 // here's a temperature sensor device that we'll expose to HomeKit
 var DHT_SENSOR = {
@@ -24,8 +20,9 @@ var DHT_SENSOR = {
     return DHT_SENSOR.currentHumidity;
   },
   read() {
-    DHT_SENSOR.currentTemperature = sensorLib.read().temperature.toFixed(1);
-    DHT_SENSOR.currentHumidity = sensorLib.read().humidity.toFixed(1);
+    var data = sensorLib.read(sensorType, sensorPin);
+    DHT_SENSOR.currentTemperature = data.temperature.toFixed(1);
+    DHT_SENSOR.currentHumidity = data.humidity.toFixed(1);
   }
 }
 
