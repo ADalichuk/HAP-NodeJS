@@ -26,8 +26,9 @@ var CO2_SENSOR = {
     sleep.msleep(200);
     var response=uart.read();
     
-    if (response[0] == "\xff" && response[1] == "\x86"){
+    if (response[0] == 0xff && response[1] == 0x86){
        currentLevel = s[2]*256 + s[3];
+       console.log(currentLevel);
     }
   }
 }
