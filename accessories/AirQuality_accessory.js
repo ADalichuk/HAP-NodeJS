@@ -27,8 +27,7 @@ var CO2_SENSOR = {
     var response=uart.read();
     
     if (response[0] == 0xff && response[1] == 0x86){
-       currentLevel = s[2]*256 + s[3];
-       console.log(currentLevel);
+       currentLevel = response[2]*256 + response[3];
     }
   }
 }
