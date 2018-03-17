@@ -21,6 +21,7 @@ var DHT_SENSOR = {
   },
   read() {
     var data = sensorLib.read(sensorType, sensorPin);
+    console.log("DHT sensor on pin " + sensorPin + " data " + data);
     DHT_SENSOR.currentTemperature = data.temperature.toFixed(1);
     DHT_SENSOR.currentHumidity = data.humidity.toFixed(1);
   }
