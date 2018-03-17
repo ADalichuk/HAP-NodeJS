@@ -34,7 +34,6 @@ cssAccessory.on('identify', function(paired, callback) {
 });
 
 var ThermostatService = cssAccessory.addService(Service.Thermostat,"Thermostat");
-ThermostatService.addLinkedService(FanService);
 
 ThermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
 
@@ -413,5 +412,5 @@ setInterval(function () {
    }
 }, 500);// update fan speed once per 500 milliseconds
     
-
+//ThermostatService.addLinkedService(FanService);
 cssAccessory.setPrimaryService(ThermostatService);
