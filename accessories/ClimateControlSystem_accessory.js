@@ -345,7 +345,7 @@ var fan = cssAccessory.addService(Service.Fan, "Fan")
 
 // also add an "optional" Characteristic for spped
 fan
-  .addCharacteristic(Characteristic.RotationSpeed)
+  .getCharacteristic(Characteristic.RotationSpeed)
   .on('get', function(callback) {
     callback(null, FAKE_FAN.rSpeed);
   })
