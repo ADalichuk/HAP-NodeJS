@@ -3,7 +3,6 @@ var Service = require('../../').Service;
 var SerialPort = require('serialport');
 var sleep = require('sleep');
 
-module.exports = CarbonDioxideSensor;
 
 class CarbonDioxideSensor {
   constructor(options) {
@@ -29,7 +28,7 @@ class CarbonDioxideSensor {
     
     this.service.getCharacteristic(Characteristic.CarbonDioxideLevel)
     .on('get', function(callback) {
-        this.getLevel());
+        this.getLevel();
     });
   }
   
@@ -81,3 +80,4 @@ class CarbonDioxideSensor {
   
 }
 
+module.exports = CarbonDioxideSensor;
