@@ -325,14 +325,7 @@ var FAKE_FAN = {
 
 // Add the actual Fan Service and listen for change events from iOS.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
-var fan = cssAccessory.addService(Service.Fan, "Fan") // services exposed to the user should have "names" like "Fake Light" for us
-  .getCharacteristic(Characteristic.On)
-  .on('set', function(value, callback) {
-    FAKE_FAN.setPowerOn(value);
-    callback(); // Our fake Fan is synchronous - this value has been successfully set
-  });
-
-fan
+var fan = cssAccessory.addService(Service.Fan, "Fan")
   .getCharacteristic(Characteristic.On)
   .on('get', function(callback) {
 
