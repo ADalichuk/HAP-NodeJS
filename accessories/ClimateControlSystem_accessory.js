@@ -118,7 +118,7 @@ var CO2_SENSOR = {
 }
 
 var airQualityService = cssAccessory.addService(Service.AirQualitySensor, "CO2");
-
+airQualityService.addCharacteristic(Characteristic.TargetAirQuality);
 airQualityService
   .getCharacteristic(Characteristic.CarbonDioxideLevel)
   .on('get', function(callback) {
