@@ -117,7 +117,7 @@ var CO2_SENSOR = {
   }
 }
 
-cssAccessory
+var airQualityService = cssAccessory
   .addService(Service.AirQualitySensor, "CO2")
   .getCharacteristic(Characteristic.CarbonDioxideLevel)
   .on('get', function(callback) {
@@ -151,8 +151,7 @@ setInterval(function() {
   }
 
   // update the characteristic value so interested iOS devices can get notified
-  sensor
-    .getService(Service.AirQualitySensor)
+  airQualityService
     .setCharacteristic(Characteristic.AirQuality, airQuality)
     .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
 }, 3000);
@@ -205,7 +204,7 @@ var dhtDataOuter = {
   }
 }
 
-cssAccessory
+var TServiceInner = cssAccessory
   .addService(Service.TemperatureSensor, uuid.generate('hap-nodejs:accessories:temperature-sensor-inner'), "T Inside")
   .getCharacteristic(Characteristic.CurrentTemperature)
   .on('get', function(callback) {
@@ -214,7 +213,7 @@ cssAccessory
     callback(null, dhtDataInner.getTemperature());
   });
 
-cssAccessory
+var HServiceInner = cssAccessory
   .addService(Service.HumiditySensor, uuid.generate('hap-nodejs:accessories:humidity-sensor-inner'), "H Inside")
   .getCharacteristic(Characteristic.CurrentRelativeHumidity )
   .on('get', function(callback) {
@@ -223,7 +222,7 @@ cssAccessory
     callback(null, dhtDataInner.getHumidity());
   });
   
-cssAccessory
+var TServiceOuter = cssAccessory
   .addService(Service.TemperatureSensor, uuid.generate('hap-nodejs:accessories:temperature-sensor-outer'), "T Outside")
   .getCharacteristic(Characteristic.CurrentTemperature)
   .on('get', function(callback) {
@@ -232,7 +231,7 @@ cssAccessory
     callback(null, dhtDataOuter.getTemperature());
   });
 
-cssAccessory
+var HServiceOuter = cssAccessory
   .addService(Service.HumiditySensor, uuid.generate('hap-nodejs:accessories:humidity-sensor-outer'), "H Outside")
   .getCharacteristic(Characteristic.CurrentRelativeHumidity )
   .on('get', function(callback) {
@@ -248,21 +247,11 @@ setInterval(function() {
   dhtDataOuter.read();
   
   // update the characteristic value so interested iOS devices can get notified
-  sensor
-    .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.CurrentTemperature, dhtDataInner.currentTemperature);
+  TServiceInner.setCharacteristic(Characteristic.CurrentTemperature, dhtDataInner.currentTemperature);
+  HServiceInner.setCharacteristic(Characteristic.CurrentRelativeHumidity, dhtDataInner.currentHumidity);
     
-  sensor
-    .getService(Service.HumiditySensor)
-    .setCharacteristic(Characteristic.CurrentRelativeHumidity, dhtDataInner.currentHumidity);
-    
-  sensor
-    .getService(Service.TemperatureSensor)
-    .setCharacteristic(Characteristic.CurrentTemperature, dhtDataOuter.currentTemperature);
-    
-  sensor
-    .getService(Service.HumiditySensor)
-    .setCharacteristic(Characteristic.CurrentRelativeHumidity, dhtDataOuter.currentHumidity);
+  TServiceOuter.setCharacteristic(Characteristic.CurrentTemperature, dhtDataOuter.currentTemperature);
+  HServiceOuter.setCharacteristic(Characteristic.CurrentRelativeHumidity, dhtDataOuter.currentHumidity);
     
   CO2_SENSOR.read();
   
@@ -287,8 +276,7 @@ setInterval(function() {
   }
 
   // update the characteristic value so interested iOS devices can get notified
-  sensor
-    .getService(Service.AirQualitySensor)
+  airQualityService
     .setCharacteristic(Characteristic.AirQuality, airQuality)
     .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
   
@@ -344,8 +332,7 @@ var fan = cssAccessory.addService(Service.Fan, "Fan") // services exposed to the
     callback(); // Our fake Fan is synchronous - this value has been successfully set
   });
 
-cssAccessory
-  .getService(Service.Fan)
+fan
   .getCharacteristic(Characteristic.On)
   .on('get', function(callback) {
 
@@ -364,8 +351,7 @@ cssAccessory
   });
 
 // also add an "optional" Characteristic for spped
-cssAccessory
-  .getService(Service.Fan)
+fan
   .addCharacteristic(Characteristic.RotationSpeed)
   .on('get', function(callback) {
     callback(null, FAKE_FAN.rSpeed);
