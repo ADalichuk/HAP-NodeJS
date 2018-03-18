@@ -2,12 +2,13 @@ var Characteristic = require('../../').Characteristic;
 var Service = require('../../').Service;
 var SerialPort = require('serialport');
 var sleep = require('sleep');
+var uuid = require('../').uuid;
 
 
 class CarbonDioxideSensor {
   constructor(options) {
       
-    this.service = Service("CO2");
+    this.service = Service("CO2", Service.AirQualitySensor.UUID);
 
     this.setRangeCmd = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
     this.readDataCmd = Buffer.from([0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]);
