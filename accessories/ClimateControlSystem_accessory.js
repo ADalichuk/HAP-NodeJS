@@ -364,8 +364,13 @@ fan
 // Setup fans speed control 
 setInterval(function () {
   //FAKE_FAN.pwmControl.pwmWrite(Math.floor(FAKE_FAN.rSpeed * 255 / 100) * !FAKE_FAN.powerOn);
-  FAKE_FAN.pwmControl.pwmWrite(255 * !FAKE_FAN.powerOn);
-  FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn ? 0 : 1);
+  //FAKE_FAN.pwmControl.pwmWrite(255 * !FAKE_FAN.powerOn);
+  FAKE_FAN.powerOnRelay.writeSync(FAKE_FAN.powerOn ? 1 : 0);
+  
+  if (CO2_SENSOR.getLevel() > 370)
+  {
+    FAKE_FAN.setSpeed(100);
+  }
   
   // turn on corresponding relay according to fan speed value
    switch (true) {        
