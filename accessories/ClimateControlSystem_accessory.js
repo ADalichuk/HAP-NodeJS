@@ -335,23 +335,20 @@ var FAKE_FAN = {
 // Add the actual Fan Service and listen for change events from iOS.
 // We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
 
-var fan = cssAccessory.addService(Service.Fan, "Fan") 
+// Add the actual Fan Service and listen for change events from iOS.
+// We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
+var fan = cssAccessory.addService(Service.Fan, "Fan") // services exposed to the user should have "names" like "Fake Light" for us
+  .getCharacteristic(Characteristic.On)
+  .on('set', function(value, callback) {
+    FAKE_FAN.setPowerOn(value);
+    callback(); // Our fake Fan is synchronous - this value has been successfully set
+  });
 
 // listen for the "identify" event for this Accessory
 fan.on('identify', function(paired, callback) {
   FAKE_FAN.identify();
   callback(); // success
 });
-
-// Add the actual Fan Service and listen for change events from iOS.
-// We can see the complete list of Services and Characteristics in `lib/gen/HomeKitTypes.js`
-fan
-  .addService(Service.Fan, "Fan") // services exposed to the user should have "names" like "Fake Light" for us
-  .getCharacteristic(Characteristic.On)
-  .on('set', function(value, callback) {
-    FAKE_FAN.setPowerOn(value);
-    callback(); // Our fake Fan is synchronous - this value has been successfully set
-  });
 
 // We want to intercept requests for our current power state so we can query the hardware itself instead of
 // allowing HAP-NodeJS to return the cached Characteristic.value.
