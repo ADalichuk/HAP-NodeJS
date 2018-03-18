@@ -2,7 +2,6 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var CarbonDioxideSensor = require('./modules').CarbonDioxideSensor;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
@@ -118,10 +117,45 @@ var CO2_SENSOR = {
   }
 }
 
-var CO2_SENSOR = new CarbonDioxideSensor(false);
-CO2_SENSOR.initialize();
-var airQualityService = cssAccessory.addService(CO2_SENSOR.getService());
-airQualityService.addCharacteristic(Characteristic.TargetAirQuality);
+var airQualityService = cssAccessory.addService(Service.AirQualitySensor, "CO2");
+
+airQualityService
+  .getCharacteristic(Characteristic.CarbonDioxideLevel)
+  .on('get', function(callback) {
+    
+    // return our current value
+    callback(null, CO2_SENSOR.getLevel());
+  });
+  
+setInterval(function() {
+  
+  CO2_SENSOR.read();
+  
+  var airQuality = Characteristic.AirQuality.UNKNOWN;
+  var CO2Level = CO2_SENSOR.getLevel();
+  switch (true) {
+    case (CO2Level < 500):
+        airQuality = Characteristic.AirQuality.EXCELLENT;
+        break;
+    case (CO2Level > 500 && CO2Level < 800):
+        airQuality = Characteristic.AirQuality.GOOD;
+        break;
+    case (CO2Level > 800 && CO2Level < 1100):
+        airQuality = Characteristic.AirQuality.FAIR;
+        break;
+    case (CO2Level > 1100 && CO2Level < 1500):
+        airQuality = Characteristic.AirQuality.INFERIOR;
+        break;
+    case (CO2Level > 1500):
+        airQuality = Characteristic.AirQuality.POOR;
+        break;
+  }
+
+  // update the characteristic value so interested iOS devices can get notified
+  airQualityService
+    .setCharacteristic(Characteristic.AirQuality, airQuality)
+    .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
+}, 3000);
     
     
 
@@ -225,7 +259,32 @@ setInterval(function() {
   HServiceOuter.setCharacteristic(Characteristic.CurrentRelativeHumidity, dhtDataOuter.currentHumidity);
     
   CO2_SENSOR.read();
-    
+  
+  var airQuality = Characteristic.AirQuality.UNKNOWN;
+  var CO2Level = CO2_SENSOR.getLevel();
+  switch (true) {
+    case (CO2Level < 500):
+        airQuality = Characteristic.AirQuality.EXCELLENT;
+        break;
+    case (CO2Level > 500 && CO2Level < 800):
+        airQuality = Characteristic.AirQuality.GOOD;
+        break;
+    case (CO2Level > 800 && CO2Level < 1100):
+        airQuality = Characteristic.AirQuality.FAIR;
+        break;
+    case (CO2Level > 1100 && CO2Level < 1500):
+        airQuality = Characteristic.AirQuality.INFERIOR;
+        break;
+    case (CO2Level > 1500):
+        airQuality = Characteristic.AirQuality.POOR;
+        break;
+  }
+
+  // update the characteristic value so interested iOS devices can get notified
+  airQualityService
+    .setCharacteristic(Characteristic.AirQuality, airQuality)
+    .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
+  
 }, 3000);
 
 
