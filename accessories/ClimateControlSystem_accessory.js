@@ -205,7 +205,7 @@ var dhtDataOuter = {
   }
 }
 
-var TServiceInner = cssAccessory.addService(Service.TemperatureSensor, uuid.generate('hap-nodejs:accessories:temperature-sensor-inner'), "T Inside");
+var TServiceInner = cssAccessory.addService(Service.TemperatureSensor, "T Insside", uuid.generate('hap-nodejs:accessories:temperature-sensor-inner'));
 
 TServiceInner
   .getCharacteristic(Characteristic.CurrentTemperature)
@@ -215,7 +215,7 @@ TServiceInner
     callback(null, dhtDataInner.getTemperature());
   });
 
-var HServiceInner = cssAccessory.addService(Service.HumiditySensor, uuid.generate('hap-nodejs:accessories:humidity-sensor-inner'), "H Inside");
+var HServiceInner = cssAccessory.addService(Service.HumiditySensor, "H Inside", uuid.generate('hap-nodejs:accessories:humidity-sensor-inner'));
 
 HServiceInner
   .getCharacteristic(Characteristic.CurrentRelativeHumidity )
@@ -225,7 +225,7 @@ HServiceInner
     callback(null, dhtDataInner.getHumidity());
   });
   
-var TServiceOuter = cssAccessory.addService(Service.TemperatureSensor, uuid.generate('hap-nodejs:accessories:temperature-sensor-outer'), "T Outside");
+var TServiceOuter = cssAccessory.addService(Service.TemperatureSensor, "T Outside", uuid.generate('hap-nodejs:accessories:temperature-sensor-outer'));
 
 TServiceOuter
   .getCharacteristic(Characteristic.CurrentTemperature)
@@ -235,7 +235,7 @@ TServiceOuter
     callback(null, dhtDataOuter.getTemperature());
   });
 
-var HServiceOuter = cssAccessory.addService(Service.HumiditySensor, uuid.generate('hap-nodejs:accessories:humidity-sensor-outer'), "H Outside");
+var HServiceOuter = cssAccessory.addService(Service.HumiditySensor, "H Outside", uuid.generate('hap-nodejs:accessories:humidity-sensor-outer'));
 
 HServiceOuter  
   .getCharacteristic(Characteristic.CurrentRelativeHumidity )
