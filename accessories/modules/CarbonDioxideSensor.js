@@ -2,7 +2,6 @@ var Characteristic = require('../../').Characteristic;
 var Service = require('../../').Service;
 var SerialPort = require('serialport');
 var sleep = require('sleep');
-var uuid = require('../').uuid;
 
 
 class CarbonDioxideSensor {
