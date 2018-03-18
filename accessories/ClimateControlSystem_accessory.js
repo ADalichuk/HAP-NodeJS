@@ -2,7 +2,7 @@ var Accessory = require('../').Accessory;
 var Service = require('../').Service;
 var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
-var CarbonDioxideSensor = require('./modules').CarbonDioxideSensor;
+var CarbonDioxideSensor = require('modules/').CarbonDioxideSensor;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
