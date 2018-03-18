@@ -110,7 +110,7 @@ var CO2_SENSOR = {
     sleep.msleep(200);
     var response=uart.read();
     
-    if (response[0] == 0xff && response[1] == 0x86){
+    if (response && response[0] == 0xff && response[1] == 0x86){
        this.currentLevel = response[2]*256 + response[3];
        //console.log("Current CO2 level = " + currentLevel);
     }
@@ -199,7 +199,7 @@ var dhtDataOuter = {
   },
   read() {
     var data = sensorLib.read(sensorType, outerSensorPin);
-    console.log("DHT sensor on pin " + innerSensorPin + " t=" + data.temperature + " h=" + data.humidity);
+    console.log("DHT sensor on pin " + outerSensorPin + " t=" + data.temperature + " h=" + data.humidity);
     dhtDataOuter.currentTemperature = data.temperature.toFixed(1);
     dhtDataOuter.currentHumidity = data.humidity.toFixed(1);
   }
