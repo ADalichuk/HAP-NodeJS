@@ -344,15 +344,15 @@ var fan = cssAccessory.addService(Service.Fan, "Fan")
   });
 
 // also add an "optional" Characteristic for spped
-fan
-  .getCharacteristic(Characteristic.RotationSpeed)
-  .on('get', function(callback) {
-    callback(null, FAKE_FAN.rSpeed);
-  })
-  .on('set', function(value, callback) {
-    FAKE_FAN.setSpeed(value);
-    callback();
-  })
+//fan
+//  .getCharacteristic(Characteristic.RotationSpeed)
+//  .on('get', function(callback) {
+//    callback(null, FAKE_FAN.rSpeed);
+//  })
+// .on('set', function(value, callback) {
+//    FAKE_FAN.setSpeed(value);
+//   callback();
+//  })
 
 // Setup fans speed control 
 setInterval(function () {
