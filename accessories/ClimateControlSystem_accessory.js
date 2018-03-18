@@ -344,15 +344,7 @@ var fan = cssAccessory.addService(Service.Fan, "Fan") // services exposed to the
     callback(); // Our fake Fan is synchronous - this value has been successfully set
   });
 
-// listen for the "identify" event for this Accessory
-fan.on('identify', function(paired, callback) {
-  FAKE_FAN.identify();
-  callback(); // success
-});
-
-// We want to intercept requests for our current power state so we can query the hardware itself instead of
-// allowing HAP-NodeJS to return the cached Characteristic.value.
-fan
+cssAccessory
   .getService(Service.Fan)
   .getCharacteristic(Characteristic.On)
   .on('get', function(callback) {
@@ -372,7 +364,7 @@ fan
   });
 
 // also add an "optional" Characteristic for spped
-fan
+cssAccessory
   .getService(Service.Fan)
   .addCharacteristic(Characteristic.RotationSpeed)
   .on('get', function(callback) {
