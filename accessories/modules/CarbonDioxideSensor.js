@@ -7,7 +7,7 @@ var sleep = require('sleep');
 class CarbonDioxideSensor {
   constructor(options) {
       
-    this.service = Service(Service.AirQualitySensor, "CO2");
+    this.service = Service("CO2");
 
     this.setRangeCmd = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
     this.readDataCmd = Buffer.from([0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]);

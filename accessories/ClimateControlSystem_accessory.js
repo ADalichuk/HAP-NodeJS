@@ -120,10 +120,8 @@ var CO2_SENSOR = {
 
 var CO2_SENSOR = new CarbonDioxideSensor(false);
 CO2_SENSOR.initialize();
-var airQualityService = cssAccessory.addService(CO2_SENSOR.getService());
-airQualityService.addCharacteristic(Characteristic.TargetAirQuality);
-    
-    
+var airQualityService = cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
+   
 
 var sensorLib = require('node-dht-sensor');
 
