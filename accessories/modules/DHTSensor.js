@@ -28,7 +28,7 @@ class DHTSensor {
         this.getData().temperature;
     });
     
-    this.serviceHumidity.getCharacteristic(Characteristic.CurrentHumidity)
+    this.serviceHumidity.getCharacteristic(Characteristic.CurrentRelativeHumidity)
     .on('get', function(callback) {
         this.getData().humidity;
     });
