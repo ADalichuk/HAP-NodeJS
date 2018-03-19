@@ -49,7 +49,7 @@ class DHTSensor {
   read() {
     var data = sensorLib.read(this.sensorType, this.gpioPin);
     if (this.isLoggingEnabled)
-        console.log("Reading DHT sensor on pin {0}; T = {1}C, H = {2}% ".format(this.gpioPin, this.currentTemperature, this.currentHumidity));
+        console.log("Reading DHT sensor on pin %d; T = %dC, H = %d% ",this.gpioPin, this.currentTemperature, this.currentHumidity);
     this.currentTemperature = data.temperature.toFixed(1);
     this.currentHumidity = data.humidity.toFixed(1);
     this.serviceTemperature.setCharacteristic(Characteristic.CurrentTemperature, this.currentTemperature);
