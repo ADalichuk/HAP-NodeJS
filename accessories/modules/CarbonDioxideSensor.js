@@ -3,11 +3,12 @@ var Service = require('../../').Service;
 var SerialPort = require('serialport');
 var sleep = require('sleep');
 
+module.exports = CarbonDioxideSensor;
 
 class CarbonDioxideSensor {
   constructor(options) {
       
-    this.service = Service("CO2", Service.AirQualitySensor.UUID);
+    this.service = new Service("CO2", Service.AirQualitySensor.UUID);
 
     this.setRangeCmd = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
     this.readDataCmd = Buffer.from([0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]);
@@ -76,8 +77,4 @@ class CarbonDioxideSensor {
             break;
       }
   }
-  
-  
 }
-
-module.exports = CarbonDioxideSensor;
