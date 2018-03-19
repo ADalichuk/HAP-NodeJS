@@ -3,8 +3,6 @@ var Characteristic = require('../../').Characteristic;
 var uuid = require('../../').uuid;
 var sensorLib = require('node-dht-sensor');
 
-module.exports = DHTSensor;
-
 class DHTSensor {
   constructor(options) {
       
@@ -58,3 +56,5 @@ class DHTSensor {
     this.serviceHumidity.setCharacteristic(Characteristic.CurrentRelativeHumidity, this.currentHumidity);
   }
 }
+
+module.exports = DHTSensor;
