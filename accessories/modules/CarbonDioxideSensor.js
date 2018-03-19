@@ -3,8 +3,6 @@ var Service = require('../../').Service;
 var SerialPort = require('serialport');
 var sleep = require('sleep');
 
-module.exports = CarbonDioxideSensor;
-
 class CarbonDioxideSensor {
   constructor(options) {
       
@@ -78,3 +76,5 @@ class CarbonDioxideSensor {
       }
   }
 }
+
+module.exports = CarbonDioxideSensor;
