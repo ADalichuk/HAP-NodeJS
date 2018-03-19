@@ -89,10 +89,10 @@ ThermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
       callback();
     });
     
-var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: false});
+var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: true});
 cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());
 
-var CO2_SENSOR = new CarbonDioxideSensor(false);
+var CO2_SENSOR = new CarbonDioxideSensor(true);
 CO2_SENSOR.initialize();
 cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
 
