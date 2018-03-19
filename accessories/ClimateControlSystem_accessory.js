@@ -99,17 +99,17 @@ cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
 var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
 var outerSensorPin  = 4;  // The GPIO pin number for sensor signal
 
-var DHT_SENSOR_INFLOW = new DHTSensor({
-    TemperatureSensorName: "Inflow Temperature",
-    HumiditySensorName:"Inflow Humidity",
-    pinNumber:innerSensorPin, 
-    isLoggingEnabled:true});
+var DHT_SENSOR_INFLOW = new DHTSensor(
+    "Inflow Temperature",
+    "Inflow Humidity",
+    innerSensorPin, 
+    true);
     
-var DHT_SENSOR_OUTFLOW = new DHTSensor({
-    TemperatureSensorName: "Outflow Temperature",
-    HumiditySensorName:"Outflow Humidity",
-    pinNumber:outerSensorPin, 
-    isLoggingEnabled:true});
+var DHT_SENSOR_OUTFLOW = new DHTSensor(
+    "Outflow Temperature",
+    "Outflow Humidity",
+    outerSensorPin, 
+    true);
     
 cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
 cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());

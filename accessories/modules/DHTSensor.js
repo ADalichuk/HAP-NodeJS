@@ -4,23 +4,23 @@ var uuid = require('../../').uuid;
 var sensorLib = require('node-dht-sensor');
 
 class DHTSensor {
-  constructor(options) {
+  constructor(temperatureSensorName, humiditySensorName, pinNumber, isLoggingEnabled) {
       
     this.serviceTemperature = new Service(
-    options.temperatureSensorName,
-    uuid.generate(options.temperatureSensorName + options.humiditySensorName));
+    temperatureSensorName,
+    uuid.generate(temperatureSensorName));
     
     this.serviceHumidity = new Service(
-    options.humiditySensorName,
-    uuid.generate(options.temperatureSensorName + options.humiditySensorName));
+    humiditySensorName,
+    uuid.generate(humiditySensorName));
 
     this.currentTemperature = 20;
     this.currentHumidity = 30;
-    this.temperatureSensorName = options.temperatureSensorName;
-    this.humiditySensorName = options.humiditySensorName;
+    this.temperatureSensorName = temperatureSensorName;
+    this.humiditySensorName = humiditySensorName;
     this.sensorType = 22; // DHT22
-    this.gpioPin = options.pinNumber
-    this.isLoggingEnabled = options.isLoggingEnabled;
+    this.gpioPin = pinNumber
+    this.isLoggingEnabled = isLoggingEnabled;
     
     // Service callbacks
     this.serviceTemperature.getCharacteristic(Characteristic.CurrentTemperature)
