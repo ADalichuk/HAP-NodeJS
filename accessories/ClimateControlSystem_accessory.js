@@ -113,8 +113,8 @@ var DHT_SENSOR_OUTFLOW = new DHTSensor(
     
 cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
 cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());
-//cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
-//cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
+cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
+cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
 
 // sensors reading every 3 seconds
 setInterval(function() {

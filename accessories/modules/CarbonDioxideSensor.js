@@ -4,7 +4,7 @@ var SerialPort = require('serialport');
 var sleep = require('sleep');
 
 class CarbonDioxideSensor {
-  constructor(options) {
+  constructor(isLoggingEnabled) {
       
     this.service = new Service.AirQualitySensor("CO2", Service.AirQualitySensor.UUID);
 
@@ -15,7 +15,7 @@ class CarbonDioxideSensor {
     this.currentLevel = 399;
     this.airQuality = Characteristic.AirQuality.UNKNOWN;
     
-    this.isLoggingEnabled = options.isLoggingEnabled;
+    this.isLoggingEnabled = isLoggingEnabled;
   }
 
   initialize() {
