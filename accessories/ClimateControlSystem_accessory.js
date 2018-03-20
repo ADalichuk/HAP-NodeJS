@@ -5,6 +5,7 @@ var uuid = require('../').uuid;
 var CarbonDioxideSensor = require('./modules/CarbonDioxideSensor.js');
 var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
+var ThermostatController = require('./modules/ThermostatController.js');
 
 var enableLogging = false;
 

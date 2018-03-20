@@ -9,49 +9,62 @@ class ThermostatController {
     
     this.service = new Service.Thermostat(options.displayName, Service.Thermostat.UUID);
     
-    this.CurrentHeatingCoolingState: 1,
-    this.TargetHeatingCoolingState: 1,
-    this.CurrentTemperature: 33,
-    this.TargetTemperature: 32,
-    this.TemperatureDisplayUnits: 1,
-    this.LightOn: false
-    this.powerOn = false;
-    this.rotationSpeed = 100;
-    this.powerOnRelay = new GPIOOnOff(26, 'out'),
-    this.speed_1_Relay = new GPIOOnOff(19, 'out'),
-    this.speed_2_Relay = new GPIOOnOff(13, 'out'),
-    this.speed_3_Relay = new GPIOOnOff(6, 'out'),
-     
+    this.currentHeatingCoolingState: 1,
+    this.targetHeatingCoolingState: 1,
+    this.currentTemperature: 33,
+    this.targetTemperature: 32,
+    this.temperatureDisplayUnits: 1,
+    
     this.isLoggingEnabled = options.isLoggingEnabled;
     
     // Set service callbacks
-    this.service.getCharacteristic(Characteristic.On)
-    .on('set', function(value, callback) {
-        this.setPowerOn(value);
-        callback(); // Our fake Fan is synchronous - this value has been successfully set
-    })
+    this.service.getCharacteristic(Characteristic.currentHeatingCoolingState)
     .on('get', function(callback) {
-
-        // this event is emitted when you ask Siri directly whether your fan is on or not. you might query
-        // the fan hardware itself to find this out, then call the callback. But if you take longer than a
-        // few seconds to respond, Siri will give up.
-
-        var err = null; // in case there were any problems
-
-        if (FAKE_FAN.powerOn) {
-          callback(err, true);
-        }
-        else {
-          callback(err, false);
-        }
-     });
+        callback(null, cssData.currentHeatingCoolingState);
+    })
+    .on('set',function(value, callback) {
+        cssData.currentHeatingCoolingState=value;
+        console.log( "Characteristic currentHeatingCoolingState changed to %s",value);
+        callback();
+    });
      
-    this.service.addCharacteristic(Characteristic.RotationSpeed)
+    this.service.addCharacteristic(Characteristic.targetHeatingCoolingState)
     .on('get', function(callback) {
-        callback(null, this.rotationSpeed);
+        callback(null, cssData.targetHeatingCoolingState);
     })
-    .on('set', function(value, callback) {
-        this.setSpeed(value);
+    .on('set',function(value, callback) {
+        cssData.targetHeatingCoolingState=value;
+        console.log( "Characteristic targetHeatingCoolingState changed to %s",value);
+        callback();
+    });
+    
+    this.service.getCharacteristic(Characteristic.currentTemperature)
+    .on('get', function(callback) {
+        callback(null, cssData.currentTemperature);
+    })
+    .on('set',function(value, callback) {
+        cssData.currentTemperature=value;
+        console.log( "Characteristic currentTemperature changed to %s",value);
+        callback();
+    });
+
+    this.service.getCharacteristic(Characteristic.targetTemperature)
+    .on('get', function(callback) {
+        callback(null, cssData.targetTemperature);
+    })
+    .on('set',function(value, callback) {
+        cssData.targetTemperature=value;
+        console.log( "Characteristic targetTemperature changed to %s",value);
+        callback();
+    });
+
+    this.service.getCharacteristic(Characteristic.temperatureDisplayUnits)
+    .on('get', function(callback) {
+        callback(null, cssData.temperatureDisplayUnits);
+    })
+    .on('set',function(value, callback) {
+        cssData.temperatureDisplayUnits=value;
+        console.log( "Characteristic temperatureDisplayUnits changed to %s",value);
         callback();
     });
   }
