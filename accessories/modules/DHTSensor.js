@@ -8,11 +8,11 @@ class DHTSensor {
       
     this.serviceTemperature = new Service.TemperatureSensor(
     temperatureSensorName,
-    uuid.generate(temperatureSensorName), pinNumber);
+    uuid.generate(temperatureSensorName));
     
     this.serviceHumidity = new Service.HumiditySensor(
     humiditySensorName,
-    uuid.generate(humiditySensorName), pinNumber);
+    uuid.generate(humiditySensorName));
 
     this.currentTemperature = 20;
     this.currentHumidity = 30;

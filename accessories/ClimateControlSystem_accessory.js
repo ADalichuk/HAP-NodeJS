@@ -119,7 +119,7 @@ cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumiditySe
 // sensors reading every 3 seconds
 setInterval(function() {
   DHT_SENSOR_INFLOW.read();
-  //DHT_SENSOR_OUTFLOW.read();
+  DHT_SENSOR_OUTFLOW.read();
   CO2_SENSOR.read();
 }, 3000);
 
