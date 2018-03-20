@@ -39,8 +39,8 @@ cssAccessory.on('identify', function(paired, callback) {
   callback(); // success
 });
 
-var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
-cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
+//var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
+//cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
     
 var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
 cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());

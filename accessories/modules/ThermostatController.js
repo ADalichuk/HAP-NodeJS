@@ -72,42 +72,6 @@ class ThermostatController {
   getService() {
     return this.service;  
   }
-  
-  setPowerOn(isPowerOn) {
-      this.powerOn = isPowerOn;
-      this.powerOnRelay.writeSync(this.powerOn ? 0 : 1);
-  }
-  
-  setSpeed(value) {
-      if (isLoggingEnabled)
-          console.log("Setting fan rotationSpeed to %s", value);
-      this.rotationSpeed = value;
-  }
-  
-  updateSpeed() {
-      // turn on corresponding relay according to fan speed value
-      switch (true) {        
-        case (this.rSpeed < 33):
-            this.speed_3_Relay.writeSync(1);
-            this.speed_2_Relay.writeSync(1);
-            this.speed_1_Relay.writeSync(0);
-            break;
-        case (this.rSpeed >= 33 && this.rSpeed < 66 ):
-            this.speed_3_Relay.writeSync(1);
-            this.speed_1_Relay.writeSync(1);
-            this.speed_2_Relay.writeSync(0);
-            break;
-        case (this.rSpeed >= 66):
-            this.speed_2_Relay.writeSync(1);
-            this.speed_1_Relay.writeSync(1);
-            this.speed_3_Relay.writeSync(0);
-            break;
-      }      
-  }
-  
-  identify() {
-    console.log("Fan Identified!");
-  }
 }
 
 module.exports = ThermostatController;
