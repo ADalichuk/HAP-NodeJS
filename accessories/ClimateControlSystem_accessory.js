@@ -6,6 +6,8 @@ var CarbonDioxideSensor = require('./modules/CarbonDioxideSensor.js');
 var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
 
+var enableLogging = false;
+
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
   fanPowerOn: false,
@@ -36,63 +38,13 @@ cssAccessory.on('identify', function(paired, callback) {
   callback(); // success
 });
 
-var ThermostatService = cssAccessory.addService(Service.Thermostat,"Thermostat");
-
-ThermostatService.getCharacteristic(Characteristic.CurrentHeatingCoolingState)
-
-  .on('get', function(callback) {
-    callback(null, cssData.CurrentHeatingCoolingState);
-  })
-  .on('set',function(value, callback) {
-      cssData.CurrentHeatingCoolingState=value;
-      console.log( "Characteristic CurrentHeatingCoolingState changed to %s",value);
-      callback();
-    });
-
- ThermostatService.getCharacteristic(Characteristic.TargetHeatingCoolingState)
-  .on('get', function(callback) {
-    callback(null, cssData.TargetHeatingCoolingState);
-  })
-  .on('set',function(value, callback) {
-      cssData.TargetHeatingCoolingState=value;
-      console.log( "Characteristic TargetHeatingCoolingState changed to %s",value);
-      callback();
-    });
-
- ThermostatService.getCharacteristic(Characteristic.CurrentTemperature)
-  .on('get', function(callback) {
-    callback(null, cssData.CurrentTemperature);
-  })
-  .on('set',function(value, callback) {
-      cssData.CurrentTemperature=value;
-      console.log( "Characteristic CurrentTemperature changed to %s",value);
-      callback();
-    });
-
- ThermostatService.getCharacteristic(Characteristic.TargetTemperature)
-  .on('get', function(callback) {
-    callback(null, cssData.TargetTemperature);
-  })
-  .on('set',function(value, callback) {
-      cssData.TargetTemperature=value;
-      console.log( "Characteristic TargetTemperature changed to %s",value);
-      callback();
-    });
-
- ThermostatService.getCharacteristic(Characteristic.TemperatureDisplayUnits)
-  .on('get', function(callback) {
-    callback(null, cssData.TemperatureDisplayUnits);
-  })
-  .on('set',function(value, callback) {
-      cssData.TemperatureDisplayUnits=value;
-      console.log( "Characteristic TemperatureDisplayUnits changed to %s",value);
-      callback();
-    });
+var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
+cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
     
-var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: true});
+var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
 cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());
 
-var CO2_SENSOR = new CarbonDioxideSensor(true);
+var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
 CO2_SENSOR.initialize();
 cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
 
@@ -103,23 +55,23 @@ var DHT_SENSOR_INFLOW = new DHTSensor(
     "Inflow Temperature",
     "Inflow Humidity",
     innerSensorPin, 
-    true);
+    enableLogging);
     
 var DHT_SENSOR_OUTFLOW = new DHTSensor(
     "Outflow Temperature",
     "Outflow Humidity",
     outerSensorPin, 
-    true);
+    enableLogging);
     
 cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
 cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());
-cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
-cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
+//cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
+//cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
 
 // sensors reading every 3 seconds
 setInterval(function() {
   DHT_SENSOR_INFLOW.read();
-  DHT_SENSOR_OUTFLOW.read();
+  //DHT_SENSOR_OUTFLOW.read();
   CO2_SENSOR.read();
 }, 3000);
 
