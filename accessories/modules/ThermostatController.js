@@ -9,11 +9,11 @@ class ThermostatController {
     
     this.service = new Service.Thermostat(options.displayName, Service.Thermostat.UUID);
     
-    this.currentHeatingCoolingState: 1,
-    this.targetHeatingCoolingState: 1,
-    this.currentTemperature: 33,
-    this.targetTemperature: 32,
-    this.temperatureDisplayUnits: 1,
+    this.currentHeatingCoolingState = 1;
+    this.targetHeatingCoolingState = 1;
+    this.currentTemperature = 33;
+    this.targetTemperature = 32;
+    this.temperatureDisplayUnits = 1;
     
     this.isLoggingEnabled = options.isLoggingEnabled;
     
