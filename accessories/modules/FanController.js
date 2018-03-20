@@ -7,7 +7,7 @@ var GPIOOnOff = require('onoff').Gpio;
 class FanController {
   constructor(options) {
     
-    this.service = new Service(options.displayName, Service.Fan.UUID);
+    this.service = new Service.Fan(options.displayName, Service.Fan.UUID);
     
     this.powerOn = false;
     this.rotationSpeed = 100;

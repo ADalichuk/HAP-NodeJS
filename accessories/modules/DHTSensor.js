@@ -6,11 +6,11 @@ var sensorLib = require('node-dht-sensor');
 class DHTSensor {
   constructor(temperatureSensorName, humiditySensorName, pinNumber, isLoggingEnabled) {
       
-    this.serviceTemperature = new Service(
+    this.serviceTemperature = new Service.TemperatureSensor(
     temperatureSensorName,
     uuid.generate(temperatureSensorName));
     
-    this.serviceHumidity = new Service(
+    this.serviceHumidity = new Service.HumiditySensor(
     humiditySensorName,
     uuid.generate(humiditySensorName));
 
