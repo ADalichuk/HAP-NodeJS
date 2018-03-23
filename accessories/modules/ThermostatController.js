@@ -21,52 +21,52 @@ class ThermostatController {
     this.service.getCharacteristic(Characteristic.currentHeatingCoolingState)
     .on('get', function(callback) {
         callback(null, cssData.currentHeatingCoolingState);
-    })
+    }.bind(this))
     .on('set',function(value, callback) {
         cssData.currentHeatingCoolingState=value;
         console.log( "Characteristic currentHeatingCoolingState changed to %s",value);
         callback();
-    });
+    }.bind(this));
      
     this.service.addCharacteristic(Characteristic.targetHeatingCoolingState)
     .on('get', function(callback) {
         callback(null, cssData.targetHeatingCoolingState);
-    })
+    }.bind(this))
     .on('set',function(value, callback) {
         cssData.targetHeatingCoolingState=value;
         console.log( "Characteristic targetHeatingCoolingState changed to %s",value);
         callback();
-    });
+    }.bind(this));
     
     this.service.getCharacteristic(Characteristic.currentTemperature)
     .on('get', function(callback) {
         callback(null, cssData.currentTemperature);
-    })
+    }.bind(this))
     .on('set',function(value, callback) {
         cssData.currentTemperature=value;
         console.log( "Characteristic currentTemperature changed to %s",value);
         callback();
-    });
+    }.bind(this));
 
     this.service.getCharacteristic(Characteristic.targetTemperature)
     .on('get', function(callback) {
         callback(null, cssData.targetTemperature);
-    })
+    }.bind(this))
     .on('set',function(value, callback) {
         cssData.targetTemperature=value;
         console.log( "Characteristic targetTemperature changed to %s",value);
         callback();
-    });
+    }.bind(this));
 
     this.service.getCharacteristic(Characteristic.temperatureDisplayUnits)
     .on('get', function(callback) {
         callback(null, cssData.temperatureDisplayUnits);
-    })
+    }.bind(this))
     .on('set',function(value, callback) {
         cssData.temperatureDisplayUnits=value;
         console.log( "Characteristic temperatureDisplayUnits changed to %s",value);
         callback();
-    });
+    }.bind(this));
   }
   
   getService() {

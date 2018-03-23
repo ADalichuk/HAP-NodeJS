@@ -28,7 +28,7 @@ class CarbonDioxideSensor {
     this.service.getCharacteristic(Characteristic.CarbonDioxideLevel)
     .on('get', function(callback) {
         this.getLevel();
-    });
+    }.bind(this));
   }
   
   getService() {
