@@ -43,11 +43,11 @@ cssAccessory.on('identify', function(paired, callback) {
 //cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
     
 var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
-cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());
+cssAccessory.addService(Service.Fan, bind(FAN_CONTROLLER.getService(), FAN_CONTROLLER));
 
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
 CO2_SENSOR.initialize();
-cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
+cssAccessory.addService(Service.AirQualitySensor, bind(CO2_SENSOR.getService(), CO2_SENSOR));
 
 var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
 var outerSensorPin  = 4;  // The GPIO pin number for sensor signal
@@ -64,8 +64,8 @@ var DHT_SENSOR_OUTFLOW = new DHTSensor(
     outerSensorPin, 
     enableLogging);
     
-cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
-cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());
+cssAccessory.addService(Service.TemperatureSensor, bind(DHT_SENSOR_INFLOW.getTemperatureService(), DHT_SENSOR_INFLOW));
+cssAccessory.addService(Service.HumiditySensor, bind(DHT_SENSOR_INFLOW.getHumidityService(), DHT_SENSOR_INFLOW));
 //cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
 //cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
 

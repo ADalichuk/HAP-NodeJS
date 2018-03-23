@@ -32,7 +32,7 @@ class FanController {
 
         var err = null; // in case there were any problems
 
-        if (FAKE_FAN.powerOn) {
+        if (this.powerOn) {
           callback(err, true);
         }
         else {
