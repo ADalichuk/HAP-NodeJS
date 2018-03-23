@@ -20,11 +20,11 @@ class FanController {
     
     // Set service callbacks
     this.service.getCharacteristic(Characteristic.On)
-    .on('set', function(value, callback) {
+    .on('set', bind(function(value, callback) {
         this.setPowerOn(value);
         callback(); // Our fake Fan is synchronous - this value has been successfully set
-    })
-    .on('get', function(callback) {
+    }, this))
+    .on('get', bind(function(callback) {
 
         // this event is emitted when you ask Siri directly whether your fan is on or not. you might query
         // the fan hardware itself to find this out, then call the callback. But if you take longer than a
@@ -38,16 +38,16 @@ class FanController {
         else {
           callback(err, false);
         }
-     });
+     }, this));
      
     this.service.addCharacteristic(Characteristic.RotationSpeed)
-    .on('get', function(callback) {
+    .on('get', bind(function(callback) {
         callback(null, this.rotationSpeed);
-    })
-    .on('set', function(value, callback) {
+    }, this))
+    .on('set', bind(function(value, callback) {
         this.setSpeed(value);
         callback();
-    });
+    }, this));
   }
   
   getService() {
