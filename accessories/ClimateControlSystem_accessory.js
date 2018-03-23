@@ -7,7 +7,7 @@ var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
 var ThermostatController = require('./modules/ThermostatController.js');
 
-var enableLogging = true;
+var enableLogging = false;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
@@ -41,15 +41,13 @@ cssAccessory.on('identify', function(paired, callback) {
 
 //var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
 //cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
-
+    
 var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
-var fanService = FAN_CONTROLLER.getService();
-cssAccessory.addService(Service.Fan, bind(fanService, FAN_CONTROLLER));
+cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());
 
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
 CO2_SENSOR.initialize();
-var co2Service = CO2_SENSOR.getService();
-cssAccessory.addService(Service.AirQualitySensor, bind(co2Service, CO2_SENSOR));
+cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
 
 var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
 var outerSensorPin  = 4;  // The GPIO pin number for sensor signal
@@ -65,9 +63,9 @@ var DHT_SENSOR_OUTFLOW = new DHTSensor(
     "Outflow Humidity",
     outerSensorPin, 
     enableLogging);
-
-cssAccessory.addService(Service.TemperatureSensor, bind(DHT_SENSOR_INFLOW.getTemperatureService(), DHT_SENSOR_INFLOW));
-cssAccessory.addService(Service.HumiditySensor, bind(DHT_SENSOR_INFLOW.getHumidityService(), DHT_SENSOR_INFLOW));
+    
+cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
+cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());
 //cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
 //cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
 
