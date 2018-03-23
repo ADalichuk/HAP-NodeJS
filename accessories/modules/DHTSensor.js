@@ -26,12 +26,12 @@ class DHTSensor {
     this.serviceTemperature.getCharacteristic(Characteristic.CurrentTemperature)
     .on('get', function(callback) {
         this.getData().temperature;
-    });
+    }.bind(this));
     
     this.serviceHumidity.getCharacteristic(Characteristic.CurrentRelativeHumidity)
     .on('get', function(callback) {
         this.getData().humidity;
-    });
+    }.bind(this));
   }
   
   getTemperatureService() {
