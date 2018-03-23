@@ -41,13 +41,14 @@ cssAccessory.on('identify', function(paired, callback) {
 
 //var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
 //cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
-var fanService = FAN_CONTROLLER.getService();
+
 var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
+var fanService = FAN_CONTROLLER.getService();
 cssAccessory.addService(Service.Fan, bind(fanService, FAN_CONTROLLER));
 
-var co2Service = CO2_SENSOR.getService();
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
 CO2_SENSOR.initialize();
+var co2Service = CO2_SENSOR.getService();
 cssAccessory.addService(Service.AirQualitySensor, bind(co2Service, CO2_SENSOR));
 
 var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
