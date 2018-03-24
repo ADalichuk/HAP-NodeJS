@@ -42,8 +42,8 @@ cssAccessory.on('identify', function(paired, callback) {
 //var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
 //cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
     
-
-var fanService = cssAccessory.addService(Service.Fan, "Fan", Service.Fan.UUID);
+// ADD FAN SERVICE ------------------------------------------------------------
+var fanService = cssAccessory.addService(Service.Fan, "Fan");
 var FAN_CONTROLLER = new FanController(enableLogging);
 fanService
   .getCharacteristic(Characteristic.On)
@@ -53,11 +53,18 @@ fanService
   .addCharacteristic(Characteristic.RotationSpeed)
   .on('set', FAN_CONTROLLER.setSpeed.bind(FAN_CONTROLLER))
   .on('get', FAN_CONTROLLER.getSpeed.bind(FAN_CONTROLLER));
-
+  
+// ADD AIR QUALITY SENSOR SERVICE-----------------------------------------------
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
-CO2_SENSOR.initialize();
-cssAccessory.addService(Service.AirQualitySensor, CO2_SENSOR.getService());
+var co2Service = cssAccessory.addService(Service.AirQualitySensor, "CO² Sensor");
+co2Service
+  .getCharacteristic(Characteristic.CarbonDioxideLevel)
+  .on('get', CO2_SENSOR.getLevel.bind(CO2_SENSOR));
+co2Service
+  .getCharacteristic(Characteristic.AirQuality)
+  .on('get', CO2_SENSOR.getAirQuality.bind(CO2_SENSOR));  
 
+// ADD TEMPERATURE AND HUMIDITY SENSORS SERVICES--------------------------------
 var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
 var outerSensorPin  = 4;  // The GPIO pin number for sensor signal
 

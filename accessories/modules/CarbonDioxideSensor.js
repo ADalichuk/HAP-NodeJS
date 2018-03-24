@@ -6,8 +6,6 @@ var sleep = require('sleep');
 class CarbonDioxideSensor {
   constructor(isLoggingEnabled) {
       
-    this.service = new Service.AirQualitySensor("CO2", Service.AirQualitySensor.UUID);
-
     this.setRangeCmd = Buffer.from([0xff, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xd0, 0x8f]);
     this.readDataCmd = Buffer.from([0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]);
     this.uart = null;
@@ -16,29 +14,12 @@ class CarbonDioxideSensor {
     this.airQuality = Characteristic.AirQuality.UNKNOWN;
     
     this.isLoggingEnabled = isLoggingEnabled;
-  }
-
-  initialize() {
+    
     this.uart = new SerialPort('/dev/serial0', {baudRate: 9600});
     sleep.sleep(2);
     this.uart.write(this.setRangeCmd);
     sleep.msleep(100);
     this.uart.read(9);
-    
-    this.service.getCharacteristic(Characteristic.CarbonDioxideLevel)
-    .on('get', function(callback) {
-        this.getLevel();
-    }.bind(this));
-  }
-  
-  getService() {
-    return this.service;  
-  }
-  
-  getLevel() {
-    if (this.isLoggingEnabled)
-        console.log("Getting the current CO2 level. CO2 = " + this.currentLevel + " ppm");
-    return this.currentLevel;
   }
   
   read() {
@@ -48,15 +29,19 @@ class CarbonDioxideSensor {
     
     if (response && response[0] == 0xff && response[1] == 0x86){
         this.currentLevel = response[2]*256 + response[3];
-        this.service
-            .setCharacteristic(Characteristic.AirQuality, this.getAirQuality())
-            .setCharacteristic(Characteristic.CarbonDioxideLevel, this.getLevel());
         if (this.isLoggingEnabled)
             console.log("Reading the current CO2 level. CO2 = " + this.currentLevel + " ppm");
     }
   }
   
-  getAirQuality() {
+  getLevel(callback) {
+    if (this.isLoggingEnabled)
+        console.log("Getting the current CO2 level. CO2 = " + this.currentLevel + " ppm");
+    callback(null, this.getLevel());
+    return this.currentLevel;
+  }
+  
+  getAirQuality(callback) {
       switch (true) {
         case (this.currentLevel < 500):
             this.airQuality = Characteristic.AirQuality.EXCELLENT;
@@ -74,6 +59,8 @@ class CarbonDioxideSensor {
             this.airQuality = Characteristic.AirQuality.POOR;
             break;
       }
+      callback(null, this.AirQuality);
+      return this.AirQuality;
   }
 }
 
