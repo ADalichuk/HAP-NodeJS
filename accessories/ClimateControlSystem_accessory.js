@@ -60,6 +60,7 @@ airQualityControllerService
   .getCharacteristic(Characteristic.On)
   .on('set', function(isEnabled, callback){
     console.log("switch status write");
+    callback();
     controlAirQualityOnOff = isEnabled;})
   .on('get', function(callback){
     console.log("switch status read");
