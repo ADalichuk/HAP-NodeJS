@@ -29,11 +29,7 @@ class FanController {
     if (callback == null)
         return this.powerOn;
     var err = null; // in case there were any problems
-    if (this.powerOn)
-      callback(err, true);
-    else
-      callback(err, false);
-    
+    callback(err, this.powerOn);
   }
   
   setSpeed(value, callback) {

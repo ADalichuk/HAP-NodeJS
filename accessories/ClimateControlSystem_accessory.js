@@ -55,11 +55,11 @@ fanService
   .on('get', FAN_CONTROLLER.getSpeed.bind(FAN_CONTROLLER));
 
 var controlAirQualityOnOff = true; 
-// var airQualityControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
-// airQualityControllerService
-  // .getCharacteristic(Characteristic.On)
-  // .on('set', function(isEnabled){controlAirQualityOnOff = isEnabled;})
-  // .on('get', function(){return controlAirQualityOnOff});
+var airQualityControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
+airQualityControllerService
+  .getCharacteristic(Characteristic.On)
+  .on('set', function(isEnabled, callback){controlAirQualityOnOff = isEnabled;})
+  .on('get', function(callback){callback(err, controlAirQualityOnOff);});
   
 // ADD AIR QUALITY SENSOR SERVICE-----------------------------------------------
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
