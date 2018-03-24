@@ -90,6 +90,7 @@ setInterval(function() {
   DHT_SENSOR_INFLOW.read();
   //DHT_SENSOR_OUTFLOW.read();
   CO2_SENSOR.read();
+ 
   co2Service
     .setCharacteristic(Characteristic.AirQuality, CO2_SENSOR.getAirQuality())
     .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());

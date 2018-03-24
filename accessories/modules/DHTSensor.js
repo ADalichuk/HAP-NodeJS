@@ -25,12 +25,12 @@ class DHTSensor {
     // Service callbacks
     this.serviceTemperature.getCharacteristic(Characteristic.CurrentTemperature)
     .on('get', function(callback) {
-        this.getData().temperature;
+        callback(null, this.getData().temperature);
     }.bind(this));
     
     this.serviceHumidity.getCharacteristic(Characteristic.CurrentRelativeHumidity)
     .on('get', function(callback) {
-        this.getData().humidity;
+        callback(null, this.getData().humidity);
     }.bind(this));
   }
   

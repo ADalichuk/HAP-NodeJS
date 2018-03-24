@@ -61,10 +61,10 @@ class CarbonDioxideSensor {
             break;
       }
       if (this.isLoggingEnabled)
-        console.log("Getting the current Air Quality. Air Quality = " + this.AirQuality);
+        console.log("Getting the current Air Quality. Air Quality = " + this.airQuality);
       if (callback)
-        callback(null, this.AirQuality);
-      return this.AirQuality;
+        callback(null, this.airQuality);
+      return this.airQuality;
   }
 }
 
