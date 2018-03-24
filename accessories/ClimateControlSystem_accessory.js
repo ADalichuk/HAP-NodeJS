@@ -7,7 +7,7 @@ var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
 var ThermostatController = require('./modules/ThermostatController.js');
 
-var enableLogging = false;
+var enableLogging = true;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
