@@ -7,7 +7,7 @@ var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
 var ThermostatController = require('./modules/ThermostatController.js');
 
-var enableLogging = true;
+var enableLogging = false;
 
 // here's a fake hardware device that we'll expose to HomeKit
 var cssData = {
@@ -111,6 +111,10 @@ setInterval(function() {
     else if (CO2_SENSOR.getAirQuality() == 1){
       FAN_CONTROLLER.forceSpeed = false;
     }
+  }
+  else
+  {
+    FAN_CONTROLLER.forceSpeed = false;
   }
 }, 3000);
 
