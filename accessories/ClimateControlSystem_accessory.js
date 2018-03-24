@@ -47,11 +47,11 @@ var fanService = cssAccessory.addService(Service.Fan, "Fan", Service.Fan.UUID);
 var FAN_CONTROLLER = new FanController(enableLogging);
 fanService
   .getCharacteristic(Characteristic.On)
-  .on('set', FAN_CONTROLLER.setOnOffStatus.bind(FAN_CONTROLLER));
+  .on('set', FAN_CONTROLLER.setOnOffStatus.bind(FAN_CONTROLLER))
   .on('get', FAN_CONTROLLER.getOnOffStatus.bind(FAN_CONTROLLER));
 fanService
-  .getCharacteristic(Characteristic.RotationSpeed)
-  .on('set', FAN_CONTROLLER.setSpeed.bind(FAN_CONTROLLER));
+  .addCharacteristic(Characteristic.RotationSpeed)
+  .on('set', FAN_CONTROLLER.setSpeed.bind(FAN_CONTROLLER))
   .on('get', FAN_CONTROLLER.getSpeed.bind(FAN_CONTROLLER));
 
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
