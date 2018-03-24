@@ -90,4 +90,4 @@ setInterval(function() {
 }, 500);
     
 //ThermostatService.addLinkedService(FanService);
-cssAccessory.setPrimaryService(ThermostatService);
+//cssAccessory.setPrimaryService(ThermostatService);
