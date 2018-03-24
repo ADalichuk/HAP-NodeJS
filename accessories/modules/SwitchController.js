@@ -4,17 +4,11 @@ var uuid = require('../../').uuid;
 var Gpio = require('pigpio').Gpio;
 var GPIOOnOff = require('onoff').Gpio;
 
-class FanController {
+class SwitchController {
   constructor(isLoggingEnabled) {
 
-    this.forceSpeed = false;
     this.powerOn = false;
-    this.rotationSpeed = 100;
-    this.powerOnRelay = new GPIOOnOff(26, 'out'),
-    this.speed_1_Relay = new GPIOOnOff(19, 'out'),
-    this.speed_2_Relay = new GPIOOnOff(13, 'out'),
-    this.speed_3_Relay = new GPIOOnOff(6, 'out'),
-     
+  
     this.isLoggingEnabled = isLoggingEnabled;
   }
   
@@ -53,12 +47,7 @@ class FanController {
   
   updateSpeed() {
       // turn on corresponding relay according to fan speed value
-      switch (true) {  
-        case (this.forceSpeed):
-            this.speed_2_Relay.writeSync(1);
-            this.speed_1_Relay.writeSync(1);
-            this.speed_3_Relay.writeSync(0);
-            break; 
+      switch (true) {        
         case (this.rSpeed < 33):
             this.speed_3_Relay.writeSync(1);
             this.speed_2_Relay.writeSync(1);
@@ -76,6 +65,10 @@ class FanController {
             break;
       }      
   }
+  
+  identify() {
+    console.log("Fan Identified!");
+  }
 }
 
-module.exports = FanController;
+module.exports = SwitchController;

@@ -53,6 +53,13 @@ fanService
   .addCharacteristic(Characteristic.RotationSpeed)
   .on('set', FAN_CONTROLLER.setSpeed.bind(FAN_CONTROLLER))
   .on('get', FAN_CONTROLLER.getSpeed.bind(FAN_CONTROLLER));
+
+var controlAirQualityOnOff = false; 
+var co2ControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
+co2ControllerService
+  .addCharacteristic(Characteristic.On)
+  .on('set', function(isEnabled){controlAirQualityOnOff = isEnabled;})
+  .on('get', function(){return controlAirQualityOnOff});
   
 // ADD AIR QUALITY SENSOR SERVICE-----------------------------------------------
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
@@ -94,6 +101,17 @@ setInterval(function() {
   co2Service
     .setCharacteristic(Characteristic.AirQuality, CO2_SENSOR.getAirQuality())
     .setCharacteristic(Characteristic.CarbonDioxideLevel, CO2_SENSOR.getLevel());
+    
+  if (controlAirQualityOnOff){
+    if (CO2_SENSOR.getAirQuality() > 3){
+      if (enableLogging)
+        console.log("Forcing fan due to high CO² level");
+      FAN_CONTROLLER.forceSpeed = true;
+    }
+    else if (CO2_SENSOR.getAirQuality() == 1){
+      FAN_CONTROLLER.forceSpeed = false;
+    }
+  }
 }, 3000);
 
 setInterval(function() {
