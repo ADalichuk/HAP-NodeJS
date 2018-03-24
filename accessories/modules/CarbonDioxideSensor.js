@@ -59,6 +59,8 @@ class CarbonDioxideSensor {
             this.airQuality = Characteristic.AirQuality.POOR;
             break;
       }
+      if (this.isLoggingEnabled)
+        console.log("Getting the current Air Quality. Air Quality = " + this.AirQuality);
       callback(null, this.AirQuality);
       return this.AirQuality;
   }

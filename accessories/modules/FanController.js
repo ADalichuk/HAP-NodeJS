@@ -32,7 +32,7 @@ class FanController {
   }
   
   setSpeed(value, callback) {
-    if (isLoggingEnabled)
+    if (this.isLoggingEnabled)
         console.log("Setting fan rotationSpeed to %s", value);
     this.rotationSpeed = value;
     callback();
