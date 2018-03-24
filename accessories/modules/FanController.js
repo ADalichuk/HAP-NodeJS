@@ -55,17 +55,17 @@ class FanController {
             this.speed_1_Relay.writeSync(1);
             this.speed_3_Relay.writeSync(0);
             break; 
-        case (this.rSpeed < 33):
+        case (this.rotationSpeed < 33):
             this.speed_3_Relay.writeSync(1);
             this.speed_2_Relay.writeSync(1);
             this.speed_1_Relay.writeSync(0);
             break;
-        case (this.rSpeed >= 33 && this.rSpeed < 66 ):
+        case (this.rotationSpeed >= 33 && this.rotationSpeed < 66 ):
             this.speed_3_Relay.writeSync(1);
             this.speed_1_Relay.writeSync(1);
             this.speed_2_Relay.writeSync(0);
             break;
-        case (this.rSpeed >= 66):
+        case (this.rotationSpeed >= 66):
             this.speed_2_Relay.writeSync(1);
             this.speed_1_Relay.writeSync(1);
             this.speed_3_Relay.writeSync(0);
