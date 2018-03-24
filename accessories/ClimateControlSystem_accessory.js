@@ -58,8 +58,12 @@ var controlAirQualityOnOff = true;
 var airQualityControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
 airQualityControllerService
   .getCharacteristic(Characteristic.On)
-  .on('set', function(isEnabled, callback){controlAirQualityOnOff = isEnabled;})
-  .on('get', function(callback){callback(null, controlAirQualityOnOff);});
+  .on('set', function(isEnabled, callback){
+    console.log("switch status write");
+    controlAirQualityOnOff = isEnabled;})
+  .on('get', function(callback){
+    console.log("switch status read");
+    callback(null, controlAirQualityOnOff);});
   
 // ADD AIR QUALITY SENSOR SERVICE-----------------------------------------------
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
