@@ -55,9 +55,9 @@ fanService
   .on('get', FAN_CONTROLLER.getSpeed.bind(FAN_CONTROLLER));
 
 var controlAirQualityOnOff = false; 
-var co2ControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
-co2ControllerService
-  .addCharacteristic(Characteristic.On)
+var airQualityControllerService = cssAccessory.addService(Service.Switch, "Air Quality Control");
+airQualityControllerService
+  .getCharacteristic(Characteristic.On)
   .on('set', function(isEnabled){controlAirQualityOnOff = isEnabled;})
   .on('get', function(){return controlAirQualityOnOff});
   
