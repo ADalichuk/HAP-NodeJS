@@ -18,17 +18,21 @@ class FanController {
   }
   
   setOnOffStatus(isPowerOn, callback) {
-      this.powerOn = isPowerOn;
-      this.powerOnRelay.writeSync(this.powerOn ? 0 : 1);
-      callback();
+    this.powerOn = isPowerOn;
+    this.powerOnRelay.writeSync(this.powerOn ? 0 : 1);
+    if(callback)
+        callback();
   }
   
   getOnOffStatus(callback) {
+    if (callback == null)
+        return this.powerOn;
     var err = null; // in case there were any problems
     if (this.powerOn)
       callback(err, true);
     else
       callback(err, false);
+    
   }
   
   setSpeed(value, callback) {
@@ -40,9 +44,10 @@ class FanController {
   }
   
   getSpeed(callback) {
-    if (callback)
-        callback(null, this.rotationSpeed)
-    rerurn this.rotationSpeed;
+    if (callback == null)
+        return this.rotationSpeed;
+    callback(null, this.rotationSpeed)
+
   }
   
   updateSpeed() {

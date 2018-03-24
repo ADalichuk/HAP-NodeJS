@@ -37,7 +37,8 @@ class CarbonDioxideSensor {
   getLevel(callback) {
     if (this.isLoggingEnabled)
         console.log("Getting the current CO2 level. CO2 = " + this.currentLevel + " ppm");
-    callback(null, this.currentLevel);
+    if (callback)
+        callback(null, this.currentLevel);
     return this.currentLevel;
   }
   
@@ -61,7 +62,8 @@ class CarbonDioxideSensor {
       }
       if (this.isLoggingEnabled)
         console.log("Getting the current Air Quality. Air Quality = " + this.AirQuality);
-      callback(null, this.AirQuality);
+      if (callback)
+        callback(null, this.AirQuality);
       return this.AirQuality;
   }
 }
