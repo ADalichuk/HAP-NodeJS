@@ -42,8 +42,12 @@ cssAccessory.on('identify', function(paired, callback) {
 //var THERMOSTAT_CONTROLLER = new ThermostatController({displayName: "Thermostat", isLoggingEnabled: enableLogging});
 //cssAccessory.addService(Service.Thermostat, THERMOSTAT_CONTROLLER.getService());
     
-var FAN_CONTROLLER = new FanController({displayName: "Fan", isLoggingEnabled: enableLogging});
-cssAccessory.addService(Service.Fan, FAN_CONTROLLER.getService());
+var FAN_CONTROLLER = new FanController(enableLogging);
+var fanService = cssAccessory.addService(Service.Fan, "Fan", Service.Fan.UUID);
+fanService
+  .getCharacteristic(Characteristic.On)
+  .on('set', FAN_CONTROLLER.setOnOffStatus.bind(FAN_CONTROLLER));
+  .on('get', FAN_CONTROLLER.getOnOffStatus.bind(FAN_CONTROLLER));
 
 var CO2_SENSOR = new CarbonDioxideSensor(enableLogging);
 CO2_SENSOR.initialize();

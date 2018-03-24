@@ -5,10 +5,8 @@ var Gpio = require('pigpio').Gpio;
 var GPIOOnOff = require('onoff').Gpio;
 
 class FanController {
-  constructor(options) {
-    
-    this.service = new Service.Fan(options.displayName, Service.Fan.UUID);
-    
+  constructor(isLoggingEnabled) {
+
     this.powerOn = false;
     this.rotationSpeed = 100;
     this.powerOnRelay = new GPIOOnOff(26, 'out'),
@@ -16,53 +14,32 @@ class FanController {
     this.speed_2_Relay = new GPIOOnOff(13, 'out'),
     this.speed_3_Relay = new GPIOOnOff(6, 'out'),
      
-    this.isLoggingEnabled = options.isLoggingEnabled;
-    
-    // Set service callbacks
-    this.service.getCharacteristic(Characteristic.On)
-    .on('set', (function(value, callback) {
-        this.setPowerOn(value);
-        callback(); // Our fake Fan is synchronous - this value has been successfully set
-    }).bind(this))
-    .on('get', function(callback) {
-
-        // this event is emitted when you ask Siri directly whether your fan is on or not. you might query
-        // the fan hardware itself to find this out, then call the callback. But if you take longer than a
-        // few seconds to respond, Siri will give up.
-
-        var err = null; // in case there were any problems
-
-        if (this.powerOn) {
-          callback(err, true);
-        }
-        else {
-          callback(err, false);
-        }
-     }.bind(this));
-     
-    this.service.addCharacteristic(Characteristic.RotationSpeed)
-    .on('get', function(callback) {
-        callback(null, this.rotationSpeed);
-    }.bind(this))
-    .on('set', function(value, callback) {
-        this.setSpeed(value);
-        callback();
-    }.bind(this));
+    this.isLoggingEnabled = isLoggingEnabled;
   }
   
-  getService() {
-    return this.service;  
-  }
-  
-  setPowerOn(isPowerOn) {
+  setOnOffStatus(isPowerOn, callback) {
       this.powerOn = isPowerOn;
       this.powerOnRelay.writeSync(this.powerOn ? 0 : 1);
+      callback();
   }
   
-  setSpeed(value) {
-      if (isLoggingEnabled)
-          console.log("Setting fan rotationSpeed to %s", value);
-      this.rotationSpeed = value;
+  getOnOffStatus(callback) {
+    var err = null; // in case there were any problems
+    if (this.powerOn)
+      callback(err, true);
+    else
+      callback(err, false);
+  }
+  
+  setSpeed(value, callback) {
+    if (isLoggingEnabled)
+        console.log("Setting fan rotationSpeed to %s", value);
+    this.rotationSpeed = value;
+    callback();
+  }
+  
+  getSpeed(callback) {
+    callback(null, this.rotationSpeed)
   }
   
   updateSpeed() {
