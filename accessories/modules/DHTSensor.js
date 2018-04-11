@@ -1,60 +1,45 @@
 var Service = require('../../').Service;
 var Characteristic = require('../../').Characteristic;
 var uuid = require('../../').uuid;
-var sensorLib = require('node-dht-sensor');
 
-class DHTSensor {
-  constructor(temperatureSensorName, humiditySensorName, pinNumber, isLoggingEnabled) {
-      
-    this.serviceTemperature = new Service.TemperatureSensor(
-    temperatureSensorName,
-    uuid.generate(temperatureSensorName));
-    
-    this.serviceHumidity = new Service.HumiditySensor(
-    humiditySensorName,
-    uuid.generate(humiditySensorName));
+class DHTSensorController {
+  constructor(sensorLib, pinNumber, isLoggingEnabled) {
 
-    this.currentTemperature = 20;
-    this.currentHumidity = 30;
-    this.temperatureSensorName = temperatureSensorName;
-    this.humiditySensorName = humiditySensorName;
+    this.temperature = 20;
+    this.humidity = 30;
     this.sensorType = 22; // DHT22
+    this.sensorLib = sensorLib;
     this.gpioPin = pinNumber
     this.isLoggingEnabled = isLoggingEnabled;
-    
-    // Service callbacks
-    this.serviceTemperature.getCharacteristic(Characteristic.CurrentTemperature)
-    .on('get', function(callback) {
-        callback(null, this.getData().temperature);
-    }.bind(this));
-    
-    this.serviceHumidity.getCharacteristic(Characteristic.CurrentRelativeHumidity)
-    .on('get', function(callback) {
-        callback(null, this.getData().humidity);
-    }.bind(this));
   }
   
-  getTemperatureService() {
-    return this.serviceTemperature;  
+  getTemperature(callback) {
+    if (callback == null)
+        return this.temperature;
+    var err = null; // in case there were any problems
+    callback(err, this.temperature);
   }
   
-  getHumidityService() {
-    return this.serviceHumidity;  
-  }
+  getHumidity(callback) {
+    if (callback == null)
+        return this.humidity;
+    var err = null; // in case there were any problems
+    callback(err, this.humidity);
+  }  
   
   getData() {
-    return {temperature: this.currentTemperature, humidity: this.currentHumidity};
+    return {temperature: this.temperature, humidity: this.humidity};
   }
   
   read() {
     var data = sensorLib.read(this.sensorType, this.gpioPin);
     if (this.isLoggingEnabled)
-        console.log("Reading DHT sensor on pin %d; T = %dC, H = %d% ",this.gpioPin, this.currentTemperature, this.currentHumidity);
-    this.currentTemperature = data.temperature.toFixed(1);
-    this.currentHumidity = data.humidity.toFixed(1);
-    this.serviceTemperature.setCharacteristic(Characteristic.CurrentTemperature, this.currentTemperature);
-    this.serviceHumidity.setCharacteristic(Characteristic.CurrentRelativeHumidity, this.currentHumidity);
+        console.log("Reading DHT sensor on pin %d; T = %dC, H = %d% ",this.gpioPin, this.temperature, this.humidity);
+    this.temperature = data.temperature.toFixed(1);
+    this.humidity = data.humidity.toFixed(1);
+    this.serviceTemperature.setCharacteristic(Characteristic.CurrentTemperature, this.temperature);
+    this.serviceHumidity.setCharacteristic(Characteristic.CurrentRelativeHumidity, this.humidity);
   }
 }
 
-module.exports = DHTSensor;
+module.exports = DHTSensorController;

@@ -6,6 +6,7 @@ var CarbonDioxideSensor = require('./modules/CarbonDioxideSensor.js');
 var DHTSensor = require('./modules/DHTSensor.js');
 var FanController = require('./modules/FanController.js');
 var ThermostatController = require('./modules/ThermostatController.js');
+var sensorLib = require('node-dht-sensor');
 
 var enableLogging = true;
 
@@ -77,30 +78,31 @@ co2Service
   .on('get', CO2_SENSOR.getAirQuality.bind(CO2_SENSOR));  
 
 // ADD TEMPERATURE AND HUMIDITY SENSORS SERVICES--------------------------------
-var innerSensorPin  = 17;  // The GPIO pin number for sensor signal
-var outerSensorPin  = 4;  // The GPIO pin number for sensor signal
-
-var DHT_SENSOR_INFLOW = new DHTSensor(
-    "Inflow Temperature",
-    "Inflow Humidity",
-    innerSensorPin, 
-    enableLogging);
+var DHT_SENSOR_INFLOW = new DHTSensor(sensorLib, 17/*outflowSensorPin*/, enableLogging);
+var DHT_SENSOR_OUTFLOW = new DHTSensor(sensorLib, 4/*inflowSensorPin*/, enableLogging);
     
-var DHT_SENSOR_OUTFLOW = new DHTSensor(
-    "Outflow Temperature",
-    "Outflow Humidity",
-    outerSensorPin, 
-    enableLogging);
+var Inflow_TemperatureService = cssAccessory.addService(Service.TemperatureSensor, "Inflow Temperature");
+var Inflow_HumidityService = cssAccessory.addService(Service.HumiditySensor, "Inflow Humidity");
+Inflow_TemperatureService
+    .getCharacteristic(Characteristic.CurrentTemperature)
+    .on('get', DHT_SENSOR_INFLOW.getTemperature.bind(DHT_SENSOR_INFLOW));
+Inflow_HumidityService
+    .getCharacteristic(Characteristic.CurrentRelativeHumidity)
+    .on('get', DHT_SENSOR_INFLOW.getHumidity.bind(DHT_SENSOR_INFLOW));
     
-cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_INFLOW.getTemperatureService());
-cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_INFLOW.getHumidityService());
-//cssAccessory.addService(Service.TemperatureSensor, DHT_SENSOR_OUTFLOW.getTemperatureService());
-//cssAccessory.addService(Service.HumiditySensor, DHT_SENSOR_OUTFLOW.getHumidityService());
+var Outflow_TemperatureService = cssAccessory.addService(Service.TemperatureSensor, "Outflow Temperature");
+var Outflow_HumidityService = cssAccessory.addService(Service.HumiditySensor, "Outflow Humidity");
+Outflow_TemperatureService
+    .getCharacteristic(Characteristic.CurrentTemperature)
+    .on('get', DHT_SENSOR_OUTFLOW.getTemperature.bind(DHT_SENSOR_OUTFLOW));
+Outflow_HumidityService
+    .getCharacteristic(Characteristic.CurrentRelativeHumidity)
+    .on('get', DHT_SENSOR_OUTFLOW.getHumidity.bind(DHT_SENSOR_OUTFLOW));
 
 // sensors reading every 3 seconds
 setInterval(function() {
   DHT_SENSOR_INFLOW.read();
-  //DHT_SENSOR_OUTFLOW.read();
+  DHT_SENSOR_OUTFLOW.read();
   CO2_SENSOR.read();
  
   co2Service
