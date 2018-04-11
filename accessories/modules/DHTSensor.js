@@ -32,7 +32,7 @@ class DHTSensorController {
   }
   
   read() {
-    var data = sensorLib.read(this.sensorType, this.gpioPin);
+    var data = this.sensorLib.read(this.sensorType, this.gpioPin);
     if (this.isLoggingEnabled)
         console.log("Reading DHT sensor on pin %d; T = %dC, H = %d% ",this.gpioPin, this.temperature, this.humidity);
     this.temperature = data.temperature.toFixed(1);
