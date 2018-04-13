@@ -37,8 +37,7 @@ class DHTSensorController {
         console.log("Reading DHT sensor on pin %d; T = %dC, H = %d% ",this.gpioPin, this.temperature, this.humidity);
     this.temperature = data.temperature.toFixed(1);
     this.humidity = data.humidity.toFixed(1);
-    this.serviceTemperature.setCharacteristic(Characteristic.CurrentTemperature, this.temperature);
-    this.serviceHumidity.setCharacteristic(Characteristic.CurrentRelativeHumidity, this.humidity);
+
   }
 }
 

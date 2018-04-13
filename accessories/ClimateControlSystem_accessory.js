@@ -90,19 +90,22 @@ Inflow_HumidityService
     .getCharacteristic(Characteristic.CurrentRelativeHumidity)
     .on('get', DHT_SENSOR_INFLOW.getHumidity.bind(DHT_SENSOR_INFLOW));
     
-var Outflow_TemperatureService = cssAccessory.addService(Service.TemperatureSensor, "Outflow Temperature");
-var Outflow_HumidityService = cssAccessory.addService(Service.HumiditySensor, "Outflow Humidity");
-Outflow_TemperatureService
-    .getCharacteristic(Characteristic.CurrentTemperature)
-    .on('get', DHT_SENSOR_OUTFLOW.getTemperature.bind(DHT_SENSOR_OUTFLOW));
-Outflow_HumidityService
-    .getCharacteristic(Characteristic.CurrentRelativeHumidity)
-    .on('get', DHT_SENSOR_OUTFLOW.getHumidity.bind(DHT_SENSOR_OUTFLOW));
+// var Outflow_TemperatureService = cssAccessory.addService(Service.TemperatureSensor, "Outflow Temperature");
+// var Outflow_HumidityService = cssAccessory.addService(Service.HumiditySensor, "Outflow Humidity");
+// Outflow_TemperatureService
+    // .getCharacteristic(Characteristic.CurrentTemperature)
+    // .on('get', DHT_SENSOR_OUTFLOW.getTemperature.bind(DHT_SENSOR_OUTFLOW));
+// Outflow_HumidityService
+    // .getCharacteristic(Characteristic.CurrentRelativeHumidity)
+    // .on('get', DHT_SENSOR_OUTFLOW.getHumidity.bind(DHT_SENSOR_OUTFLOW));
 
 // sensors reading every 3 seconds
 setInterval(function() {
   DHT_SENSOR_INFLOW.read();
-  DHT_SENSOR_OUTFLOW.read();
+  Inflow_TemperatureService.setCharacteristic(Characteristic.CurrentTemperature, DHT_SENSOR_INFLOW.getTemperature());
+  Inflow_HumidityService.setCharacteristic(Characteristic.CurrentRelativeHumidity, DHT_SENSOR_INFLOW.getHumidity);
+
+  //DHT_SENSOR_OUTFLOW.read();
   CO2_SENSOR.read();
  
   co2Service
